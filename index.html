@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>League HQ</title>
+<meta name="description" content="Standings, history, trades and writing for our dynasty league.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EFF1EE; --card:#F7F8F6; --ink:#131A17; --muted:#6B7671;
+  --line:#D6DAD5; --pine:#0F6B5C; --flag:#C24A2B; --gold:#9A7B2E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;
+  line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+.mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+.dim{color:var(--muted)}
+.empty{color:var(--muted);font-size:14px;padding:16px 0}
+
+/* masthead */
+.top{background:var(--ink);color:var(--paper)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:38px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.top .live{color:#8FD9C7}
+.mast{border-bottom:2px solid var(--ink);padding:26px 0 0}
+.brand{font-size:clamp(28px,5vw,46px);font-weight:900;letter-spacing:-.035em;line-height:1;display:inline-block}
+.brand:hover{color:var(--pine)}
+.mast .sub{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);margin-top:8px}
+nav{display:flex;flex-wrap:wrap;margin-top:18px}
+nav a{padding:11px 15px 11px 0;margin-right:14px;font-family:'JetBrains Mono',monospace;
+  font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom:2px solid transparent;margin-bottom:-2px}
+nav a:hover{color:var(--ink)}
+nav a.on{color:var(--ink);font-weight:700;border-bottom-color:var(--pine)}
+main{padding:34px 0 90px;min-height:60vh}
+
+/* type */
+.kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--pine);font-weight:700;margin-bottom:10px}
+h1.page{font-size:clamp(30px,5vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1.02}
+.lede{color:var(--muted);font-size:15px;margin-top:10px;max-width:64ch}
+h2.sec{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 14px;padding-bottom:9px;
+  border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+h2.sec a{color:var(--pine);font-weight:700}
+
+/* home */
+.home{display:grid;grid-template-columns:1fr 320px;gap:44px}
+@media(max-width:860px){.home{grid-template-columns:1fr;gap:34px}}
+.lead{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:28px;display:block}
+.lead h3{font-size:clamp(30px,4.4vw,44px);font-weight:900;letter-spacing:-.032em;line-height:1.04;margin-bottom:12px}
+.lead:hover h3{color:var(--pine)}
+.lead .dek{font-family:'Newsreader',Georgia,serif;font-size:19px;line-height:1.55;color:#3C4642;max-width:56ch}
+.byline{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-top:14px}
+.stack .row{display:block;padding:19px 0;border-bottom:1px solid var(--line)}
+.stack .row h4{font-size:20px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.stack .row:hover h4{color:var(--pine)}
+.stack .row p{font-family:'Newsreader',Georgia,serif;font-size:16px;color:var(--muted);margin-top:6px;line-height:1.5}
+aside .mod{margin-bottom:34px}
+.mini{width:100%;border-collapse:collapse;font-size:14px}
+.mini td{padding:8px 4px;border-top:1px solid var(--line)}
+.mini tr:first-child td{border-top:none}
+.mini .p{color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px;width:30px}
+.mini .r{text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px}
+.mini a:hover{color:var(--pine)}
+.tick{padding:12px 0;border-top:1px solid var(--line);font-size:14px}
+.tick:first-child{border-top:none}
+.tick .when{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.tick .swap em{font-style:normal;color:var(--pine);padding:0 5px}
+
+/* tables */
+table.data{width:100%;border-collapse:collapse;font-size:15px}
+table.data th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 10px 10px;font-weight:500}
+table.data th.n,table.data td.n{text-align:right}
+table.data td{padding:12px 10px;border-top:1px solid var(--line)}
+table.data tbody tr:hover{background:var(--card)}
+.rk{color:var(--muted);font-size:13px;width:30px;font-family:'JetBrains Mono',monospace}
+.team{font-weight:700;letter-spacing:-.01em}
+a.team:hover{color:var(--pine)}
+.rec{font-family:'JetBrains Mono',monospace;font-weight:700}
+.bar{height:5px;background:var(--line);border-radius:3px;overflow:hidden;min-width:56px}
+.bar span{display:block;height:100%;background:var(--pine)}
+.crown{color:var(--gold)}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:17px;display:block}
+.card:hover{border-color:var(--pine)}
+.card .k{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted)}
+.card .v{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-top:7px}
+.card .s{font-size:13px;color:var(--muted);margin-top:5px;font-family:'JetBrains Mono',monospace}
+
+/* article */
+.post{max-width:40rem;margin:0 auto}
+.post h1{font-size:clamp(32px,5vw,46px);font-weight:900;letter-spacing:-.032em;line-height:1.05}
+.post .meta{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin:16px 0 28px;padding-bottom:16px;
+  border-bottom:1px solid var(--line)}
+.post .body{font-family:'Newsreader',Georgia,serif;font-size:19.5px;line-height:1.68}
+.post .body p{margin-bottom:20px}
+.post .body p:first-of-type::first-letter{float:left;font-family:'Archivo';font-weight:900;
+  font-size:56px;line-height:.86;padding:3px 9px 0 0;color:var(--pine)}
+.back{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);display:inline-block;margin-bottom:22px}
+.back:hover{color:var(--pine)}
+
+/* roster */
+.pos{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;
+  padding:3px 7px;border-radius:3px;background:var(--line);color:var(--ink)}
+.pos.QB{background:#E3D2D0}.pos.RB{background:#CFE0D6}.pos.WR{background:#D3DCE8}
+.pos.TE{background:#E8DFC9}.pos.K,.pos.DEF{background:#DEDEDE}
+.split{display:grid;grid-template-columns:1fr 300px;gap:44px}
+@media(max-width:860px){.split{grid-template-columns:1fr;gap:30px}}
+
+.msg{padding:14px 16px;background:var(--card);border-left:3px solid var(--pine);
+  font-family:'JetBrains Mono',monospace;font-size:13px;margin-bottom:22px}
+.msg.err{border-color:var(--flag);color:var(--flag)}
+footer{border-top:2px solid var(--ink);padding:26px 0 40px;font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap">
+  <span id="statebar">Loading</span>
+  <span class="live" id="clock"></span>
+</div></div>
+
+<div class="mast"><div class="wrap">
+  <a href="/" class="brand" data-link id="brand">League HQ</a>
+  <div class="sub" id="mastsub">Dynasty since —</div>
+  <nav id="nav">
+    <a href="/" data-link data-r="home">Home</a>
+    <a href="/standings" data-link data-r="standings">Standings</a>
+    <a href="/teams" data-link data-r="teams">Teams</a>
+    <a href="/history" data-link data-r="history">History</a>
+    <a href="/trades" data-link data-r="trades">Trades</a>
+    <a href="/picks" data-link data-r="picks">Picks</a>
+    <a href="/articles" data-link data-r="articles">Writing</a>
+  </nav>
+</div></div>
+
+<main class="wrap" id="view"></main>
+
+<footer><div class="wrap" id="foot">Data from the Sleeper API</div></footer>
+
+<script src="articles.js"></script>
+<script>
+/* ==========================================================
+   CONFIG — the only line you need to change
+   ========================================================== */
+const LEAGUE_ID = '1312830186235912192';
+/* ========================================================== */
+
+const API = 'https://api.sleeper.app/v1';
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g,
+  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+
+async function get(u){ const r = await fetch(u); if(!r.ok) throw new Error(r.status); return r.json(); }
+const pct = (w,l,t) => (w+l+t) ? (w+t/2)/(w+l+t) : 0;
+const fmt = n => n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pfOf = s => (s.fpts||0)+((s.fpts_decimal||0)/100);
+const paOf = s => (s.fpts_against||0)+((s.fpts_against_decimal||0)/100);
+
+const DB = { seasons:[], now:null, chain:[], trades:[], players:null, state:null };
+
+async function loadLeague(){
+  const firstL = await get(`${API}/league/${LEAGUE_ID}`);
+  const chain = [firstL];
+  let cur = firstL, guard = 0;
+  while(cur.previous_league_id && guard++ < 30){
+    try{ cur = await get(`${API}/league/${cur.previous_league_id}`); }catch{ break; }
+    chain.push(cur);
+  }
+  chain.reverse();
+  DB.chain = chain;
+
+  DB.seasons = await Promise.all(chain.map(async l => {
+    const [rosters, users] = await Promise.all([
+      get(`${API}/league/${l.league_id}/rosters`),
+      get(`${API}/league/${l.league_id}/users`)
+    ]);
+    const nameOf = {}, teamOf = {};
+    users.forEach(u => {
+      nameOf[u.user_id] = u.display_name;
+      teamOf[u.user_id] = (u.metadata && u.metadata.team_name) || u.display_name;
+    });
+    let bracket = [];
+    try{ bracket = await get(`${API}/league/${l.league_id}/winners_bracket`); }catch{}
+    return {league:l, rosters, nameOf, teamOf, bracket};
+  }));
+  DB.now = DB.seasons[DB.seasons.length-1];
+  try{ DB.state = await get(`${API}/state/nfl`); }catch{}
+}
+
+async function loadTrades(){
+  if(DB.trades.length) return DB.trades;
+  const out = [];
+  for(const s of DB.seasons){
+    const own = {};
+    s.rosters.forEach(r => own[r.roster_id] = s.teamOf[r.owner_id] || `Roster ${r.roster_id}`);
+    for(let wk=1; wk<=18; wk++){
+      let tx = [];
+      try{ tx = await get(`${API}/league/${s.league.league_id}/transactions/${wk}`); }catch{ continue; }
+      tx.filter(t => t.type==='trade' && t.status==='complete').forEach(t => out.push({
+        season:s.league.season, wk, when:t.status_updated||0,
+        teams:(t.roster_ids||[]).map(r => own[r] || `Roster ${r}`),
+        picks:(t.draft_picks||[]).length
+      }));
+    }
+  }
+  out.sort((a,b)=>b.when-a.when);
+  DB.trades = out;
+  return out;
+}
+
+/* The player file is large, so it is only requested when a roster is
+   actually opened, then reused for the rest of the session. */
+async function loadPlayers(){
+  if(DB.players) return DB.players;
+  DB.players = await get(`${API}/players/nfl`);
+  return DB.players;
+}
+
+function champOf(s){
+  const f = (s.bracket||[]).find(m => m.p === 1);
+  if(!f || !f.w) return null;
+  const r = s.rosters.find(x => x.roster_id === f.w);
+  return r ? {name:s.teamOf[r.owner_id]||'Unknown', owner:r.owner_id, roster:r.roster_id} : null;
+}
+
+function standingsOf(s){
+  return s.rosters.map(r => {
+    const st = r.settings || {};
+    return { id:r.roster_id, owner:r.owner_id,
+      name:s.teamOf[r.owner_id] || 'Open roster', who:s.nameOf[r.owner_id] || '',
+      w:st.wins||0, l:st.losses||0, t:st.ties||0,
+      pf:pfOf(st), pa:paOf(st), streak:st.streak||'' };
+  }).sort((a,b) => pct(b.w,b.l,b.t)-pct(a.w,a.l,a.t) || b.pf-a.pf);
+}
+
+function allTime(){
+  const all = {};
+  DB.seasons.forEach(s => s.rosters.forEach(r => {
+    if(!r.owner_id) return;
+    const st = r.settings||{};
+    const a = all[r.owner_id] || (all[r.owner_id] =
+      {owner:r.owner_id,name:'',w:0,l:0,t:0,pf:0,pa:0,yrs:0,titles:0});
+    a.name = s.teamOf[r.owner_id] || a.name;
+    a.w+=st.wins||0; a.l+=st.losses||0; a.t+=st.ties||0;
+    a.pf+=pfOf(st); a.pa+=paOf(st); a.yrs++;
+  }));
+  DB.seasons.forEach(s => {
+    const c = champOf(s);
+    if(c && all[c.owner]) all[c.owner].titles++;
+  });
+  return Object.values(all).sort((a,b)=> pct(b.w,b.l,b.t)-pct(a.w,a.l,a.t) || b.pf-a.pf);
+}
+
+const rosterIdOf = owner => {
+  const r = DB.now.rosters.find(x => x.owner_id === owner);
+  return r ? r.roster_id : '';
+};
+
+const posts = () => (window.ARTICLES||[]).slice()
+  .sort((a,b)=>String(b.date).localeCompare(String(a.date)))
+  .map(p => Object.assign({}, p, {slug: slug(p.title)}));
+const paras = b => String(b).trim().split(/\n\s*\n/)
+  .map(x => `<p>${esc(x.trim().replace(/\s*\n\s*/g,' '))}</p>`).join('');
+const teaser = b => String(b).trim().split(/\n\s*\n/)[0].replace(/\s*\n\s*/g,' ').trim();
+
+/* ==========================================================
+   VIEWS
+   ========================================================== */
+const V = {};
+
+V.home = () => {
+  const ps = posts(), lead = ps[0], rest = ps.slice(1,5);
+  const st = standingsOf(DB.now).slice(0,6);
+  const played = st.some(r=>r.w+r.l+r.t>0);
+  return `<div class="home">
+    <div>
+      ${lead ? `<a class="lead" href="/article/${lead.slug}" data-link>
+        <div class="kicker">${esc(lead.tag||'Latest')}</div>
+        <h3>${esc(lead.title)}</h3>
+        <div class="dek">${esc(teaser(lead.body).slice(0,240))}</div>
+        <div class="byline">${esc(lead.date)}</div></a>`
+        : `<p class="empty">No articles yet. Add one in articles.js.</p>`}
+      ${rest.length ? `<h2 class="sec">More writing <a href="/articles" data-link>All →</a></h2>
+      <div class="stack">${rest.map(p=>`<a class="row" href="/article/${p.slug}" data-link>
+        <h4>${esc(p.title)}</h4><p>${esc(teaser(p.body).slice(0,150))}…</p></a>`).join('')}</div>` : ''}
+    </div>
+    <aside>
+      <div class="mod">
+        <h2 class="sec">${DB.now.league.season} standings <a href="/standings" data-link>Full →</a></h2>
+        ${played ? `<table class="mini">${st.map((r,i)=>`<tr>
+            <td class="p">${i+1}</td>
+            <td><a href="/team/${r.id}" data-link>${esc(r.name)}</a></td>
+            <td class="r">${r.w}-${r.l}</td></tr>`).join('')}</table>`
+          : `<p class="empty">Season hasn't started. Records fill in after Week 1.</p>`}
+      </div>
+      <div class="mod">
+        <h2 class="sec">Latest trades <a href="/trades" data-link>All →</a></h2>
+        <div id="home-trades"><p class="empty">Loading…</p></div>
+      </div>
+    </aside>
+  </div>`;
+};
+V.home.after = async () => {
+  const t = (await loadTrades()).slice(0,4);
+  const el = document.getElementById('home-trades');
+  if(!el) return;
+  el.innerHTML = t.length ? t.map(x=>`<div class="tick">
+      <div class="when">${x.season} · Week ${x.wk}</div>
+      <div class="swap">${x.teams.map(esc).join('<em>⇄</em>')}</div></div>`).join('')
+    : `<p class="empty">No trades yet.</p>`;
+};
+
+V.standings = () => {
+  const rows = standingsOf(DB.now);
+  const played = rows.some(r=>r.w+r.l+r.t>0);
+  return `<div class="kicker">${DB.now.league.season} season</div>
+  <h1 class="page">Standings</h1>
+  <p class="lede">${played ? 'Ordered by record, then by points scored.'
+    : `The ${DB.now.league.season} season hasn't kicked off. This table fills itself in once Week 1 is played.`}</p>
+  <div style="margin-top:26px"><table class="data">
+    <thead><tr><th></th><th>Team</th><th>Record</th>
+    <th class="n">PF</th><th class="n">PA</th><th class="n">Streak</th></tr></thead>
+    <tbody>${rows.map((r,i)=>`<tr>
+      <td class="rk">${i+1}</td>
+      <td><a class="team" href="/team/${r.id}" data-link>${esc(r.name)}</a>
+        ${r.who&&r.who!==r.name?`<div class="dim mono" style="font-size:11px">${esc(r.who)}</div>`:''}</td>
+      <td class="rec">${r.w}-${r.l}${r.t?'-'+r.t:''}</td>
+      <td class="n mono">${fmt(r.pf)}</td>
+      <td class="n mono dim">${fmt(r.pa)}</td>
+      <td class="n mono dim">${esc(r.streak)}</td></tr>`).join('')}</tbody></table></div>`;
+};
+
+V.teams = () => {
+  const at = {}; allTime().forEach(a => at[a.owner] = a);
+  return `<div class="kicker">${DB.now.league.season}</div>
+  <h1 class="page">Teams</h1>
+  <p class="lede">Every franchise in the league. Open one for its roster and full history.</p>
+  <div class="grid" style="margin-top:26px">${standingsOf(DB.now).map(r=>{
+    const a = at[r.owner];
+    return `<a class="card" href="/team/${r.id}" data-link>
+      <div class="k">${esc(r.who||'Manager')}</div>
+      <div class="v">${esc(r.name)}${a&&a.titles?` <span class="crown">${'★'.repeat(a.titles)}</span>`:''}</div>
+      <div class="s">${a ? `${a.w}-${a.l} all-time · ${a.yrs} yr${a.yrs>1?'s':''}` : ''}</div></a>`;
+  }).join('')}</div>`;
+};
+
+V.team = id => {
+  const r = DB.now.rosters.find(x => x.roster_id === Number(id));
+  if(!r) return `<h1 class="page">Team not found</h1>
+    <p class="lede">No roster with that ID.
+    <a href="/teams" data-link style="color:var(--pine)">Back to teams</a>.</p>`;
+  const name = DB.now.teamOf[r.owner_id] || 'Open roster';
+  const who = DB.now.nameOf[r.owner_id] || '';
+  const a = allTime().find(x => x.owner === r.owner_id);
+  const st = r.settings || {};
+  const years = DB.seasons.map(s => {
+    const rr = s.rosters.find(x => x.owner_id === r.owner_id);
+    if(!rr) return null;
+    const ss = rr.settings||{};
+    if(!((ss.wins||0)+(ss.losses||0))) return null;
+    const c = champOf(s);
+    const rank = standingsOf(s).findIndex(x => x.owner === r.owner_id) + 1;
+    return {season:s.league.season, w:ss.wins||0, l:ss.losses||0, rank, champ: c && c.owner === r.owner_id};
+  }).filter(Boolean).reverse();
+
+  return `<a class="back" href="/teams" data-link>← All teams</a>
+  <div class="kicker">${esc(who)}</div>
+  <h1 class="page">${esc(name)}${a&&a.titles?` <span class="crown">${'★'.repeat(a.titles)}</span>`:''}</h1>
+  <p class="lede">${a ? `${a.w}-${a.l}${a.t?'-'+a.t:''} all-time across ${a.yrs} season${a.yrs>1?'s':''}, ${fmt(a.pf)} points scored.` : ''}</p>
+  <div class="split" style="margin-top:32px">
+    <div>
+      <h2 class="sec">Roster <span class="dim mono" style="font-size:10px">${(r.players||[]).length} players</span></h2>
+      <div id="roster"><p class="empty">Loading player names…</p></div>
+    </div>
+    <aside>
+      <h2 class="sec">Franchise record</h2>
+      ${years.length ? `<table class="mini">${years.map(y=>`<tr>
+        <td class="p">${y.season}</td>
+        <td>${y.champ?'<span class="crown">★</span> ':''}${y.rank ? y.rank+(['','st','nd','rd'][y.rank]||'th') : ''}</td>
+        <td class="r">${y.w}-${y.l}</td></tr>`).join('')}</table>`
+        : `<p class="empty">No completed seasons yet.</p>`}
+      <div style="margin-top:26px">
+        <h2 class="sec">${DB.now.league.season}</h2>
+        <table class="mini">
+          <tr><td>Record</td><td class="r">${st.wins||0}-${st.losses||0}</td></tr>
+          <tr><td>Points for</td><td class="r">${fmt(pfOf(st))}</td></tr>
+          <tr><td>Points against</td><td class="r">${fmt(paOf(st))}</td></tr>
+        </table>
+      </div>
+    </aside>
+  </div>`;
+};
+V.team.after = async id => {
+  const el = document.getElementById('roster');
+  if(!el) return;
+  const r = DB.now.rosters.find(x => x.roster_id === Number(id));
+  if(!r) return;
+  let P;
+  try{ P = await loadPlayers(); }
+  catch{ el.innerHTML = `<p class="empty">Could not load the player list.</p>`; return; }
+  const starters = new Set(r.starters||[]);
+  const order = {QB:1,RB:2,WR:3,TE:4,K:5,DEF:6};
+  const list = (r.players||[]).map(pid => {
+    const p = P[pid] || {};
+    const pos = p.position || (p.fantasy_positions||[])[0] || '—';
+    return { pos,
+      name: p.full_name || (p.first_name ? `${p.first_name} ${p.last_name}` : pid),
+      team: p.team || 'FA', age: p.age || '', start: starters.has(pid) };
+  }).sort((a,b) => (b.start-a.start) || (order[a.pos]||9)-(order[b.pos]||9) || a.name.localeCompare(b.name));
+  if(!list.length){ el.innerHTML = `<p class="empty">No players on this roster yet.</p>`; return; }
+  el.innerHTML = `<table class="data">
+    <thead><tr><th>Pos</th><th>Player</th><th>NFL</th><th class="n">Age</th></tr></thead>
+    <tbody>${list.map(p=>`<tr>
+      <td><span class="pos ${esc(p.pos)}">${esc(p.pos)}</span></td>
+      <td style="font-weight:${p.start?700:500}">${esc(p.name)}
+        ${p.start?'<span class="dim mono" style="font-size:10px"> · STARTER</span>':''}</td>
+      <td class="dim mono" style="font-size:12px">${esc(p.team)}</td>
+      <td class="n mono dim">${esc(p.age)}</td></tr>`).join('')}</tbody></table>`;
+};
+
+V.history = () => {
+  const at = allTime();
+  const top = Math.max.apply(null, at.map(a=>pct(a.w,a.l,a.t)).concat([.001]));
+  const titles = DB.seasons.map(s => ({season:s.league.season, c:champOf(s)})).filter(x=>x.c).reverse();
+  return `<div class="kicker">Since ${DB.chain[0].season}</div>
+  <h1 class="page">The record book</h1>
+  <p class="lede">Rebuilt from every season Sleeper has on file. Managers are tracked by account,
+  so a name change doesn't split anyone's record.</p>
+  <h2 class="sec" style="margin-top:34px">Champions</h2>
+  ${titles.length ? `<div class="grid">${titles.map(t=>`
+    <a class="card" href="/team/${t.c.roster}" data-link>
+      <div class="k">${t.season}</div><div class="v crown">★ ${esc(t.c.name)}</div></a>`).join('')}</div>`
+    : `<p class="empty">No completed playoff brackets yet. Champions appear here on their own
+       once a season finishes in Sleeper.</p>`}
+  <h2 class="sec" style="margin-top:38px">All-time regular season</h2>
+  <table class="data"><thead><tr><th></th><th>Manager</th><th>Record</th><th></th>
+    <th class="n">Win %</th><th class="n">PF</th><th class="n">Yrs</th></tr></thead>
+    <tbody>${at.map((a,i)=>{const p=pct(a.w,a.l,a.t);return `<tr>
+      <td class="rk">${i+1}</td>
+      <td><a class="team" href="/team/${rosterIdOf(a.owner)}" data-link>${esc(a.name)}</a>${a.titles?` <span class="crown">${'★'.repeat(a.titles)}</span>`:''}</td>
+      <td class="rec">${a.w}-${a.l}${a.t?'-'+a.t:''}</td>
+      <td><div class="bar"><span style="width:${(p/top*100).toFixed(1)}%"></span></div></td>
+      <td class="n mono">${p.toFixed(3).replace(/^0/,'')}</td>
+      <td class="n mono">${fmt(a.pf)}</td>
+      <td class="n mono dim">${a.yrs}</td></tr>`;}).join('')}</tbody></table>`;
+};
+
+V.trades = () => `<div class="kicker">All seasons</div>
+  <h1 class="page">Trade log</h1>
+  <p class="lede">Every completed trade on record, newest first.</p>
+  <div id="tradelist" style="margin-top:26px"><p class="empty">Loading…</p></div>`;
+V.trades.after = async () => {
+  const t = await loadTrades();
+  const el = document.getElementById('tradelist');
+  if(!el) return;
+  el.innerHTML = t.length ? t.map(x=>`<div class="tick" style="padding:16px 0">
+      <div class="when">${x.season} · Week ${x.wk}${x.picks?` · ${x.picks} pick${x.picks>1?'s':''}`:''}</div>
+      <div class="swap" style="font-size:16px;font-weight:600">${x.teams.map(esc).join('<em>⇄</em>')}</div>
+    </div>`).join('') : `<p class="empty">No completed trades on record.</p>`;
+};
+
+V.picks = () => `<div class="kicker">Future capital</div>
+  <h1 class="page">Draft pick ledger</h1>
+  <p class="lede">Picks that have changed hands. Anything not listed is still with its original owner.</p>
+  <div id="picklist" style="margin-top:26px"><p class="empty">Loading…</p></div>`;
+V.picks.after = async () => {
+  const el = document.getElementById('picklist');
+  let tp;
+  try{ tp = await get(`${API}/league/${DB.now.league.league_id}/traded_picks`); }
+  catch{ el.innerHTML = `<p class="empty">Could not load traded picks.</p>`; return; }
+  const own = {};
+  DB.now.rosters.forEach(r => own[r.roster_id] = DB.now.teamOf[r.owner_id] || `Roster ${r.roster_id}`);
+  const ord = ['','1st','2nd','3rd','4th','5th','6th','7th','8th'];
+  const fut = tp.filter(p => Number(p.season) >= Number(DB.now.league.season));
+  if(!fut.length){ el.innerHTML = `<p class="empty">No future picks have been traded.</p>`; return; }
+  const by = {};
+  fut.forEach(p => (by[p.season] = by[p.season]||[]).push(p));
+  el.innerHTML = Object.keys(by).sort().map(yr => `
+    <h2 class="sec" style="margin-top:30px">${yr} draft</h2>
+    <table class="data"><thead><tr><th>Round</th><th>From</th><th>Now held by</th></tr></thead>
+    <tbody>${by[yr].sort((a,b)=>a.round-b.round).map(p=>`<tr>
+      <td class="mono">${ord[p.round]||p.round+'th'}</td>
+      <td class="dim">${esc(own[p.roster_id]||'—')}</td>
+      <td class="team">${esc(own[p.owner_id]||'—')}</td></tr>`).join('')}</tbody></table>`).join('');
+};
+
+V.articles = () => {
+  const ps = posts();
+  return `<div class="kicker">The column</div>
+  <h1 class="page">Writing</h1>
+  <p class="lede">Power rankings, recaps and grievances.</p>
+  <div class="stack" style="margin-top:26px">${ps.length ? ps.map(p=>`
+    <a class="row" href="/article/${p.slug}" data-link>
+      <div class="byline" style="margin:0 0 6px">${esc(p.date)}${p.tag?' · '+esc(p.tag):''}</div>
+      <h4>${esc(p.title)}</h4>
+      <p>${esc(teaser(p.body).slice(0,180))}…</p></a>`).join('')
+    : `<p class="empty">Nothing posted yet.</p>`}</div>`;
+};
+
+V.article = s => {
+  const p = posts().find(x => x.slug === s);
+  if(!p) return `<h1 class="page">Not found</h1>
+    <p class="lede">No article at that address.
+    <a href="/articles" data-link style="color:var(--pine)">See all writing</a>.</p>`;
+  return `<div class="post">
+    <a class="back" href="/articles" data-link>← Writing</a>
+    <h1>${esc(p.title)}</h1>
+    <div class="meta">${esc(p.date)}${p.tag?' · '+esc(p.tag):''}</div>
+    <div class="body">${paras(p.body)}</div></div>`;
+};
+
+/* ==========================================================
+   ROUTER
+   ========================================================== */
+function route(){
+  const path = location.pathname.replace(/\/+$/,'') || '/';
+  const seg = path.split('/').filter(Boolean);
+  let name = seg[0] || 'home';
+  const arg = seg[1];
+  if(!V[name]) name = 'home';
+  $('#view').innerHTML = V[name](arg);
+  const group = name === 'article' ? 'articles' : name === 'team' ? 'teams' : name;
+  document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.r === group));
+  const t = {home:DB.now.league.name, standings:'Standings', teams:'Teams', history:'Record book',
+    trades:'Trade log', picks:'Draft picks', articles:'Writing', article:'Writing', team:'Team'};
+  document.title = `${t[name]||''} · ${DB.now.league.name}`;
+  window.scrollTo(0,0);
+  if(V[name].after) V[name].after(arg);
+}
+
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[data-link]');
+  if(!a) return;
+  e.preventDefault();
+  const href = a.getAttribute('href');
+  if(location.pathname !== href){ history.pushState(null,'',href); route(); }
+});
+window.addEventListener('popstate', route);
+
+(async () => {
+  try{ await loadLeague(); }
+  catch(e){
+    $('#view').innerHTML = `<div class="msg err">Could not reach Sleeper.
+      Check the LEAGUE_ID at the top of index.html.</div>`;
+    return;
+  }
+  const n = DB.now.league;
+  $('#brand').textContent = n.name;
+  $('#mastsub').textContent = `Dynasty since ${DB.chain[0].season} · ${n.total_rosters} teams`;
+  $('#statebar').textContent = n.name;
+  $('#clock').textContent = DB.state
+    ? (DB.state.week > 0 ? `${DB.state.season} · Week ${DB.state.week}`
+       : `${DB.state.season} ${DB.state.season_type === 'pre' ? 'preseason' : DB.state.season_type}`)
+    : '';
+  $('#foot').textContent =
+    `${n.name} · ${DB.seasons.length} season${DB.seasons.length>1?'s':''} · Data from the Sleeper API`;
+  route();
+})();
+</script>
+</body>
+</html>
