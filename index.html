@@ -161,6 +161,10 @@ footer{border-top:2px solid var(--ink);padding:26px 0 40px;font-family:'JetBrain
    CONFIG — the only line you need to change
    ========================================================== */
 const LEAGUE_ID = '1312830186235912192';
+
+/* Show only managers currently in the league.
+   Set to false to include everyone who has ever played. */
+const CURRENT_MANAGERS_ONLY = true;
 /* ========================================================== */
 
 const API = 'https://api.sleeper.app/v1';
@@ -281,7 +285,10 @@ function allTime(){
     const c = champOf(s);
     if(c && all[ownerKey(c.owner)]) all[ownerKey(c.owner)].titles++;
   });
-  return Object.values(all).sort((a,b)=> pct(b.w,b.l,b.t)-pct(a.w,a.l,a.t) || b.pf-a.pf);
+  const active = new Set(DB.now.rosters.filter(r => r.owner_id).map(r => ownerKey(r.owner_id)));
+  return Object.values(all)
+    .filter(a => !CURRENT_MANAGERS_ONLY || active.has(a.owner))
+    .sort((a,b)=> pct(b.w,b.l,b.t)-pct(a.w,a.l,a.t) || b.pf-a.pf);
 }
 
 /* If a manager left and rejoined, Sleeper gives them a second account ID and
@@ -482,13 +489,18 @@ V.history = () => {
   const titles = DB.seasons.map(s => ({season:s.league.season, c:champOf(s)})).filter(x=>x.c).reverse();
   return `<div class="kicker">Since ${DB.chain[0].season}</div>
   <h1 class="page">The record book</h1>
-  <p class="lede">Covering ${playedSpan()}. Managers are tracked by account, so a name change
-  doesn't split anyone's record. Seasons played before this Sleeper league existed can be
-  entered by hand in <span class="mono">legacy.js</span>.</p>
+  <p class="lede">Covering ${playedSpan()}, for managers currently in the league. Records track
+  the Sleeper account, so a name change doesn't split anyone. Seasons played before this Sleeper
+  league existed can be entered by hand in <span class="mono">legacy.js</span>.</p>
   <h2 class="sec" style="margin-top:34px">Champions</h2>
-  ${titles.length ? `<div class="grid">${titles.map(t=>`
-    <a class="card" href="/team/${t.c.roster}" data-link>
-      <div class="k">${t.season}</div><div class="v crown">★ ${esc(t.c.name)}</div></a>`).join('')}</div>`
+  ${titles.length ? `<div class="grid">${titles.map(t=>{
+      const rid = rosterIdOf(t.c.owner);
+      const inner = `<div class="k">${t.season}</div>
+        <div class="v crown">★ ${esc(t.c.name)}</div>
+        ${rid ? '' : '<div class="s">No longer in the league</div>'}`;
+      return rid ? `<a class="card" href="/team/${rid}" data-link>${inner}</a>`
+                 : `<div class="card">${inner}</div>`;
+    }).join('')}</div>`
     : `<p class="empty">No completed playoff brackets yet. Champions appear here on their own
        once a season finishes in Sleeper.</p>`}
   <h2 class="sec" style="margin-top:38px">All-time regular season</h2>
@@ -568,6 +580,15 @@ V.debug = () => {
   const split = Object.keys(byName).filter(n => byName[n].size > 1);
 
   const at = allTime();
+  const gone = [];
+  const activeSet = new Set(DB.now.rosters.filter(r=>r.owner_id).map(r=>ownerKey(r.owner_id)));
+  DB.seasons.forEach(s => s.rosters.forEach(r => {
+    if(!r.owner_id) return;
+    const k = ownerKey(r.owner_id);
+    if(!activeSet.has(k) && !gone.some(g => g.k === k))
+      gone.push({k, name: s.teamOf[r.owner_id] || '(unnamed)', season: s.league.season});
+  }));
+
   return `<h1 class="page">Diagnostics</h1>
   <p class="lede">What actually loaded from Sleeper. Send me this page's contents and I can
   pinpoint any record that looks wrong.</p>
@@ -592,6 +613,12 @@ V.debug = () => {
         <td class="n rec">${a.w}-${a.l}${a.t?'-'+a.t:''}</td>
         <td class="n mono">${a.w+a.l+a.t}</td></tr>`;
     }).join('')}</tbody></table>
+
+  <h2 class="sec" style="margin-top:34px">Former managers</h2>
+  ${gone.length
+    ? `<p class="lede">Hidden from the record book because they're no longer in the league:
+       ${gone.map(g => esc(g.name)).join(', ')}.</p>`
+    : `<p class="empty">Everyone who has played is still in the league.</p>`}
 
   <h2 class="sec" style="margin-top:34px">Split records</h2>
   ${split.length
