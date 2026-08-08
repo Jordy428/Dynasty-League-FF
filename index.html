@@ -7,126 +7,127 @@
 <meta name="description" content="Standings, history, trades and writing for our dynasty league.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#EFF1EE; --card:#F7F8F6; --ink:#131A17; --muted:#6B7671;
-  --line:#D6DAD5; --pine:#0F6B5C; --flag:#C24A2B; --gold:#9A7B2E;
+  --paper:#F6F7F8; --card:#FFFFFF; --ink:#1A1D23; --muted:#737A85;
+  --line:#E4E7EB; --accent:#2E6B8F; --gold:#A0803C; --soft:#EDEFF2;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--paper);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;
-  line-height:1.5;-webkit-font-smoothing:antialiased}
+body{background:var(--paper);color:var(--ink);
+  font-family:'Figtree',system-ui,-apple-system,sans-serif;
+  font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
-.mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:640px){.wrap{padding:0 20px}}
+.mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
 .dim{color:var(--muted)}
-.empty{color:var(--muted);font-size:14px;padding:16px 0}
+.empty{color:var(--muted);padding:28px 0}
 
 /* masthead */
-.top{background:var(--ink);color:var(--paper)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;height:38px;
-  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
-.top .live{color:#8FD9C7}
-.mast{border-bottom:2px solid var(--ink);padding:26px 0 0}
-.brand{font-size:clamp(28px,5vw,46px);font-weight:900;letter-spacing:-.035em;line-height:1;display:inline-block}
-.brand:hover{color:var(--pine)}
-.mast .sub{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--muted);margin-top:8px}
-nav{display:flex;flex-wrap:wrap;margin-top:18px}
-nav a{padding:11px 15px 11px 0;margin-right:14px;font-family:'JetBrains Mono',monospace;
-  font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
-  border-bottom:2px solid transparent;margin-bottom:-2px}
+.top{background:var(--card);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;
+  height:46px;font-size:14px;color:var(--muted)}
+.top .live{color:var(--accent);font-weight:600}
+.mast{background:var(--card);border-bottom:1px solid var(--line);padding:44px 0 0}
+.brand{font-size:clamp(30px,4.6vw,42px);font-weight:800;letter-spacing:-.028em;
+  line-height:1.1;display:inline-block}
+.brand:hover{color:var(--accent)}
+.mast .sub{font-size:15px;color:var(--muted);margin-top:10px}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin-top:34px}
+nav a{padding:12px 0 16px;margin-right:32px;font-size:15px;font-weight:500;
+  color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+@media(max-width:640px){nav a{margin-right:22px;font-size:14px}}
 nav a:hover{color:var(--ink)}
-nav a.on{color:var(--ink);font-weight:700;border-bottom-color:var(--pine)}
-main{padding:34px 0 90px;min-height:60vh}
+nav a.on{color:var(--ink);font-weight:600;border-bottom-color:var(--accent)}
+main{padding:64px 0 120px;min-height:60vh}
 
 /* type */
-.kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--pine);font-weight:700;margin-bottom:10px}
-h1.page{font-size:clamp(30px,5vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1.02}
-.lede{color:var(--muted);font-size:15px;margin-top:10px;max-width:64ch}
-h2.sec{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--muted);margin:0 0 14px;padding-bottom:9px;
-  border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
-h2.sec a{color:var(--pine);font-weight:700}
+.kicker{font-size:14px;font-weight:600;color:var(--accent);margin-bottom:14px}
+h1.page{font-size:clamp(32px,4.6vw,44px);font-weight:800;letter-spacing:-.028em;line-height:1.12}
+.lede{color:var(--muted);font-size:17px;margin-top:16px;max-width:62ch;line-height:1.6}
+h2.sec{font-size:15px;font-weight:600;color:var(--ink);margin:0 0 22px;padding-bottom:16px;
+  border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline}
+h2.sec a{color:var(--accent);font-size:14px;font-weight:500}
 
 /* home */
-.home{display:grid;grid-template-columns:1fr 320px;gap:44px}
-@media(max-width:860px){.home{grid-template-columns:1fr;gap:34px}}
-.lead{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:28px;display:block}
-.lead h3{font-size:clamp(30px,4.4vw,44px);font-weight:900;letter-spacing:-.032em;line-height:1.04;margin-bottom:12px}
-.lead:hover h3{color:var(--pine)}
-.lead .dek{font-family:'Newsreader',Georgia,serif;font-size:19px;line-height:1.55;color:#3C4642;max-width:56ch}
-.byline{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--muted);margin-top:14px}
-.stack .row{display:block;padding:19px 0;border-bottom:1px solid var(--line)}
-.stack .row h4{font-size:20px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
-.stack .row:hover h4{color:var(--pine)}
-.stack .row p{font-family:'Newsreader',Georgia,serif;font-size:16px;color:var(--muted);margin-top:6px;line-height:1.5}
-aside .mod{margin-bottom:34px}
-.mini{width:100%;border-collapse:collapse;font-size:14px}
-.mini td{padding:8px 4px;border-top:1px solid var(--line)}
+.home{display:grid;grid-template-columns:1fr 300px;gap:80px}
+@media(max-width:900px){.home{grid-template-columns:1fr;gap:56px}}
+.lead{border-bottom:1px solid var(--line);padding-bottom:48px;margin-bottom:16px;display:block}
+.lead h3{font-size:clamp(30px,4vw,40px);font-weight:800;letter-spacing:-.028em;
+  line-height:1.18;margin-bottom:18px}
+.lead:hover h3{color:var(--accent)}
+.lead .dek{font-family:'Newsreader',Georgia,serif;font-size:20px;line-height:1.62;
+  color:#4A5058;max-width:54ch}
+.byline{font-size:14px;color:var(--muted);margin-top:22px}
+.stack .row{display:block;padding:34px 0;border-bottom:1px solid var(--line)}
+.stack .row h4{font-size:21px;font-weight:700;letter-spacing:-.018em;line-height:1.32}
+.stack .row:hover h4{color:var(--accent)}
+.stack .row p{font-family:'Newsreader',Georgia,serif;font-size:17px;color:var(--muted);
+  margin-top:10px;line-height:1.6;max-width:56ch}
+aside .mod{margin-bottom:56px}
+.mini{width:100%;border-collapse:collapse;font-size:15px}
+.mini td{padding:14px 2px;border-top:1px solid var(--line)}
 .mini tr:first-child td{border-top:none}
-.mini .p{color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px;width:30px}
-.mini .r{text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px}
-.mini a:hover{color:var(--pine)}
-.tick{padding:12px 0;border-top:1px solid var(--line);font-size:14px}
+.mini .p{color:var(--muted);width:34px;font-variant-numeric:tabular-nums}
+.mini .r{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.mini a:hover{color:var(--accent)}
+.tick{padding:20px 0;border-top:1px solid var(--line)}
 .tick:first-child{border-top:none}
-.tick .when{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:5px}
-.tick .swap em{font-style:normal;color:var(--pine);padding:0 5px}
+.tick .when{font-size:13px;color:var(--muted);margin-bottom:8px}
+.tick .swap em{font-style:normal;color:var(--accent);padding:0 8px}
 
 /* tables */
-table.data{width:100%;border-collapse:collapse;font-size:15px}
-table.data th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:10.5px;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 10px 10px;font-weight:500}
-table.data th.n,table.data td.n{text-align:right}
-table.data td{padding:12px 10px;border-top:1px solid var(--line)}
+table.data{width:100%;border-collapse:collapse;font-size:16px}
+table.data th{text-align:left;font-size:14px;font-weight:500;color:var(--muted);
+  padding:0 16px 18px 0;letter-spacing:0}
+table.data th:first-child{padding-left:4px}
+table.data th.n,table.data td.n{text-align:right;padding-right:4px}
+table.data td{padding:20px 16px 20px 0;border-top:1px solid var(--line);vertical-align:middle}
+table.data td:first-child{padding-left:4px}
 table.data tbody tr:hover{background:var(--card)}
-.rk{color:var(--muted);font-size:13px;width:30px;font-family:'JetBrains Mono',monospace}
-.team{font-weight:700;letter-spacing:-.01em}
-a.team:hover{color:var(--pine)}
-.rec{font-family:'JetBrains Mono',monospace;font-weight:700}
-.bar{height:5px;background:var(--line);border-radius:3px;overflow:hidden;min-width:56px}
-.bar span{display:block;height:100%;background:var(--pine)}
+.rk{color:var(--muted);width:40px;font-variant-numeric:tabular-nums}
+.team{font-weight:600;letter-spacing:-.012em}
+a.team:hover{color:var(--accent)}
+.rec{font-weight:600;font-variant-numeric:tabular-nums}
+.bar{height:6px;background:var(--soft);border-radius:6px;overflow:hidden;min-width:72px}
+.bar span{display:block;height:100%;background:var(--accent);border-radius:6px}
 .crown{color:var(--gold)}
 
 /* cards */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:13px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:17px;display:block}
-.card:hover{border-color:var(--pine)}
-.card .k{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--muted)}
-.card .v{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-top:7px}
-.card .s{font-size:13px;color:var(--muted);margin-top:5px;font-family:'JetBrains Mono',monospace}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:26px;display:block;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card .k{font-size:14px;color:var(--muted)}
+.card .v{font-size:21px;font-weight:700;letter-spacing:-.018em;margin-top:10px;line-height:1.3}
+.card .s{font-size:15px;color:var(--muted);margin-top:10px;font-variant-numeric:tabular-nums}
 
 /* article */
-.post{max-width:40rem;margin:0 auto}
-.post h1{font-size:clamp(32px,5vw,46px);font-weight:900;letter-spacing:-.032em;line-height:1.05}
-.post .meta{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--muted);margin:16px 0 28px;padding-bottom:16px;
-  border-bottom:1px solid var(--line)}
-.post .body{font-family:'Newsreader',Georgia,serif;font-size:19.5px;line-height:1.68}
-.post .body p{margin-bottom:20px}
-.post .body p:first-of-type::first-letter{float:left;font-family:'Archivo';font-weight:900;
-  font-size:56px;line-height:.86;padding:3px 9px 0 0;color:var(--pine)}
-.back{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--muted);display:inline-block;margin-bottom:22px}
-.back:hover{color:var(--pine)}
+.post{max-width:38rem;margin:0 auto}
+.post h1{font-size:clamp(32px,4.6vw,44px);font-weight:800;letter-spacing:-.028em;line-height:1.16}
+.post .meta{font-size:15px;color:var(--muted);margin:20px 0 48px;
+  padding-bottom:28px;border-bottom:1px solid var(--line)}
+.post .body{font-family:'Newsreader',Georgia,serif;font-size:20px;line-height:1.78}
+.post .body p{margin-bottom:30px}
+.back{font-size:15px;color:var(--muted);display:inline-block;margin-bottom:36px}
+.back:hover{color:var(--accent)}
 
 /* roster */
-.pos{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;
-  padding:3px 7px;border-radius:3px;background:var(--line);color:var(--ink)}
-.pos.QB{background:#E3D2D0}.pos.RB{background:#CFE0D6}.pos.WR{background:#D3DCE8}
-.pos.TE{background:#E8DFC9}.pos.K,.pos.DEF{background:#DEDEDE}
-.split{display:grid;grid-template-columns:1fr 300px;gap:44px}
-@media(max-width:860px){.split{grid-template-columns:1fr;gap:30px}}
+.pos{font-size:13px;font-weight:600;padding:5px 11px;border-radius:20px;
+  background:var(--soft);color:var(--muted);display:inline-block;min-width:48px;text-align:center}
+.pos.QB{background:#F2E4E2;color:#8A4A3E}
+.pos.RB{background:#DFEDE4;color:#3D6B4F}
+.pos.WR{background:#E1EAF4;color:#3A5C80}
+.pos.TE{background:#F3EBD9;color:#7A6330}
+.split{display:grid;grid-template-columns:1fr 280px;gap:80px}
+@media(max-width:900px){.split{grid-template-columns:1fr;gap:52px}}
 
-.msg{padding:14px 16px;background:var(--card);border-left:3px solid var(--pine);
-  font-family:'JetBrains Mono',monospace;font-size:13px;margin-bottom:22px}
-.msg.err{border-color:var(--flag);color:var(--flag)}
-footer{border-top:2px solid var(--ink);padding:26px 0 40px;font-family:'JetBrains Mono',monospace;
-  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.msg{padding:20px 24px;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;font-size:16px;margin-bottom:32px}
+.msg.err{border-color:#D9A5A5;color:#9E3D3D}
+footer{border-top:1px solid var(--line);background:var(--card);
+  padding:40px 0 56px;font-size:14px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -377,15 +378,15 @@ V.standings = () => {
   const played = rows.some(r=>r.w+r.l+r.t>0);
   return `<div class="kicker">${DB.now.league.season} season</div>
   <h1 class="page">Standings</h1>
-  <p class="lede">${played ? 'Ordered by record, then by points scored.'
+  <p class="lede">${played ? 'Sorted by record, with points scored breaking ties.'
     : `The ${DB.now.league.season} season hasn't kicked off. This table fills itself in once Week 1 is played.`}</p>
-  <div style="margin-top:26px"><table class="data">
+  <div style="margin-top:44px"><table class="data">
     <thead><tr><th></th><th>Team</th><th>Record</th>
     <th class="n">PF</th><th class="n">PA</th><th class="n">Streak</th></tr></thead>
     <tbody>${rows.map((r,i)=>`<tr>
       <td class="rk">${i+1}</td>
       <td><a class="team" href="/team/${r.id}" data-link>${esc(r.name)}</a>
-        ${r.who&&r.who!==r.name?`<div class="dim mono" style="font-size:11px">${esc(r.who)}</div>`:''}</td>
+        ${r.who&&r.who!==r.name?`<div class="dim" style="font-size:15px;margin-top:4px">${esc(r.who)}</div>`:''}</td>
       <td class="rec">${r.w}-${r.l}${r.t?'-'+r.t:''}</td>
       <td class="n mono">${fmt(r.pf)}</td>
       <td class="n mono dim">${fmt(r.pa)}</td>
@@ -396,9 +397,9 @@ V.teams = () => {
   const at = {}; allTime().forEach(a => at[a.owner] = a);
   return `<div class="kicker">${DB.now.league.season}</div>
   <h1 class="page">Teams</h1>
-  <p class="lede">Every franchise in the league. Records below cover
-  ${playedSpan()}. Open a team for its roster and year-by-year history.</p>
-  <div class="grid" style="margin-top:26px">${standingsOf(DB.now).map(r=>{
+  <p class="lede">The twelve franchises. Records cover
+  ${playedSpan()}. Click any team for its roster and season-by-season results.</p>
+  <div class="grid" style="margin-top:44px">${standingsOf(DB.now).map(r=>{
     const a = at[ownerKey(r.owner)];
     return `<a class="card" href="/team/${r.id}" data-link>
       <div class="k">${esc(r.who||'Manager')}</div>
@@ -432,9 +433,9 @@ V.team = id => {
   <div class="kicker">${esc(who)}</div>
   <h1 class="page">${esc(name)}${a&&a.titles?` <span class="crown">${'★'.repeat(a.titles)}</span>`:''}</h1>
   <p class="lede">${a ? `${a.w}-${a.l}${a.t?'-'+a.t:''} all-time across ${a.yrs} season${a.yrs>1?'s':''}, ${fmt(a.pf)} points scored.` : ''}</p>
-  <div class="split" style="margin-top:32px">
+  <div class="split" style="margin-top:56px">
     <div>
-      <h2 class="sec">Roster <span class="dim mono" style="font-size:10px">${(r.players||[]).length} players</span></h2>
+      <h2 class="sec">Roster <span class="dim" style="font-size:14px;font-weight:400">${(r.players||[]).length} players</span></h2>
       <div id="roster"><p class="empty">Loading player names…</p></div>
     </div>
     <aside>
@@ -444,7 +445,7 @@ V.team = id => {
         <td>${y.champ?'<span class="crown">★</span> ':''}${y.rank ? y.rank+(['','st','nd','rd'][y.rank]||'th') : ''}</td>
         <td class="r">${y.w}-${y.l}</td></tr>`).join('')}</table>`
         : `<p class="empty">No completed seasons yet.</p>`}
-      <div style="margin-top:26px">
+      <div style="margin-top:44px">
         <h2 class="sec">${DB.now.league.season}</h2>
         <table class="mini">
           <tr><td>Record</td><td class="r">${st.wins||0}-${st.losses||0}</td></tr>
@@ -478,8 +479,8 @@ V.team.after = async id => {
     <tbody>${list.map(p=>`<tr>
       <td><span class="pos ${esc(p.pos)}">${esc(p.pos)}</span></td>
       <td style="font-weight:${p.start?700:500}">${esc(p.name)}
-        ${p.start?'<span class="dim mono" style="font-size:10px"> · STARTER</span>':''}</td>
-      <td class="dim mono" style="font-size:12px">${esc(p.team)}</td>
+        ${p.start?'<span class="dim" style="font-size:14px;font-weight:400"> · STARTER</span>':''}</td>
+      <td class="dim">${esc(p.team)}</td>
       <td class="n mono dim">${esc(p.age)}</td></tr>`).join('')}</tbody></table>`;
 };
 
@@ -492,7 +493,7 @@ V.history = () => {
   <p class="lede">Covering ${playedSpan()}, for managers currently in the league. Records track
   the Sleeper account, so a name change doesn't split anyone. Seasons played before this Sleeper
   league existed can be entered by hand in <span class="mono">legacy.js</span>.</p>
-  <h2 class="sec" style="margin-top:34px">Champions</h2>
+  <h2 class="sec" style="margin-top:64px">Champions</h2>
   ${titles.length ? `<div class="grid">${titles.map(t=>{
       const rid = rosterIdOf(t.c.owner);
       const inner = `<div class="k">${t.season}</div>
@@ -503,7 +504,7 @@ V.history = () => {
     }).join('')}</div>`
     : `<p class="empty">No completed playoff brackets yet. Champions appear here on their own
        once a season finishes in Sleeper.</p>`}
-  <h2 class="sec" style="margin-top:38px">All-time regular season</h2>
+  <h2 class="sec" style="margin-top:64px">All-time regular season</h2>
   <table class="data"><thead><tr><th></th><th>Manager</th><th>Record</th><th></th>
     <th class="n">Win %</th><th class="n">PF</th><th class="n">Yrs</th></tr></thead>
     <tbody>${at.map((a,i)=>{const p=pct(a.w,a.l,a.t);return `<tr>
@@ -516,24 +517,24 @@ V.history = () => {
       <td class="n mono dim">${a.yrs}</td></tr>`;}).join('')}</tbody></table>`;
 };
 
-V.trades = () => `<div class="kicker">All seasons</div>
+V.trades = () => `
   <h1 class="page">Trade log</h1>
-  <p class="lede">Every completed trade on record, newest first.</p>
-  <div id="tradelist" style="margin-top:26px"><p class="empty">Loading…</p></div>`;
+  <p class="lede">Every trade the league has made, most recent first.</p>
+  <div id="tradelist" style="margin-top:44px"><p class="empty">Loading…</p></div>`;
 V.trades.after = async () => {
   const t = await loadTrades();
   const el = document.getElementById('tradelist');
   if(!el) return;
-  el.innerHTML = t.length ? t.map(x=>`<div class="tick" style="padding:16px 0">
+  el.innerHTML = t.length ? t.map(x=>`<div class="tick" style="padding:26px 0">
       <div class="when">${x.season} · Week ${x.wk}${x.picks?` · ${x.picks} pick${x.picks>1?'s':''}`:''}</div>
-      <div class="swap" style="font-size:16px;font-weight:600">${x.teams.map(esc).join('<em>⇄</em>')}</div>
+      <div class="swap" style="font-size:17px;font-weight:600">${x.teams.map(esc).join('<em>⇄</em>')}</div>
     </div>`).join('') : `<p class="empty">No completed trades on record.</p>`;
 };
 
-V.picks = () => `<div class="kicker">Future capital</div>
+V.picks = () => `<div class="kicker">Draft capital</div>
   <h1 class="page">Draft pick ledger</h1>
-  <p class="lede">Picks that have changed hands. Anything not listed is still with its original owner.</p>
-  <div id="picklist" style="margin-top:26px"><p class="empty">Loading…</p></div>`;
+  <p class="lede">Picks that have changed hands. Anything not listed is still with the team that earned it.</p>
+  <div id="picklist" style="margin-top:44px"><p class="empty">Loading…</p></div>`;
 V.picks.after = async () => {
   const el = document.getElementById('picklist');
   let tp;
@@ -547,7 +548,7 @@ V.picks.after = async () => {
   const by = {};
   fut.forEach(p => (by[p.season] = by[p.season]||[]).push(p));
   el.innerHTML = Object.keys(by).sort().map(yr => `
-    <h2 class="sec" style="margin-top:30px">${yr} draft</h2>
+    <h2 class="sec" style="margin-top:52px">${yr} draft</h2>
     <table class="data"><thead><tr><th>Round</th><th>From</th><th>Now held by</th></tr></thead>
     <tbody>${by[yr].sort((a,b)=>a.round-b.round).map(p=>`<tr>
       <td class="mono">${ord[p.round]||p.round+'th'}</td>
@@ -593,12 +594,12 @@ V.debug = () => {
   <p class="lede">What actually loaded from Sleeper. Send me this page's contents and I can
   pinpoint any record that looks wrong.</p>
 
-  <h2 class="sec" style="margin-top:30px">Seasons in the chain</h2>
+  <h2 class="sec" style="margin-top:52px">Seasons in the chain</h2>
   <table class="data"><thead><tr><th>Season</th><th>League ID</th>
     <th class="n">Rosters</th><th class="n">With results</th><th>Champion</th></tr></thead>
     <tbody>${rows}</tbody></table>
 
-  <h2 class="sec" style="margin-top:34px">Per-manager season audit</h2>
+  <h2 class="sec" style="margin-top:64px">Per-manager season audit</h2>
   <table class="data"><thead><tr><th>Manager</th><th>Seasons played</th>
     <th class="n">Record</th><th class="n">Games</th></tr></thead>
     <tbody>${at.map(a => {
@@ -609,18 +610,18 @@ V.debug = () => {
         return (st.wins||0)+(st.losses||0)+(st.ties||0) > 0;
       }).map(s => s.league.season);
       return `<tr><td class="team">${esc(a.name)}</td>
-        <td class="mono dim" style="font-size:12px">${yrs.join(', ') || '—'}</td>
+        <td class="dim">${yrs.join(', ') || '—'}</td>
         <td class="n rec">${a.w}-${a.l}${a.t?'-'+a.t:''}</td>
         <td class="n mono">${a.w+a.l+a.t}</td></tr>`;
     }).join('')}</tbody></table>
 
-  <h2 class="sec" style="margin-top:34px">Former managers</h2>
+  <h2 class="sec" style="margin-top:64px">Former managers</h2>
   ${gone.length
     ? `<p class="lede">Hidden from the record book because they're no longer in the league:
        ${gone.map(g => esc(g.name)).join(', ')}.</p>`
     : `<p class="empty">Everyone who has played is still in the league.</p>`}
 
-  <h2 class="sec" style="margin-top:34px">Split records</h2>
+  <h2 class="sec" style="margin-top:64px">Split records</h2>
   ${split.length
     ? `<p class="lede" style="color:var(--flag)">These names appear under more than one Sleeper
        account, so their history is being split: ${split.map(esc).join(', ')}.</p>`
@@ -629,12 +630,12 @@ V.debug = () => {
 
 V.articles = () => {
   const ps = posts();
-  return `<div class="kicker">The column</div>
+  return `
   <h1 class="page">Writing</h1>
-  <p class="lede">Power rankings, recaps and grievances.</p>
-  <div class="stack" style="margin-top:26px">${ps.length ? ps.map(p=>`
+  <p class="lede">Rankings, recaps, and complaints.</p>
+  <div class="stack" style="margin-top:44px">${ps.length ? ps.map(p=>`
     <a class="row" href="/article/${p.slug}" data-link>
-      <div class="byline" style="margin:0 0 6px">${esc(p.date)}${p.tag?' · '+esc(p.tag):''}</div>
+      <div class="byline" style="margin:0 0 10px">${esc(p.date)}${p.tag?' · '+esc(p.tag):''}</div>
       <h4>${esc(p.title)}</h4>
       <p>${esc(teaser(p.body).slice(0,180))}…</p></a>`).join('')
     : `<p class="empty">Nothing posted yet.</p>`}</div>`;
