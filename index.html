@@ -155,6 +155,7 @@ footer{border-top:2px solid var(--ink);padding:26px 0 40px;font-family:'JetBrain
 <footer><div class="wrap" id="foot">Data from the Sleeper API</div></footer>
 
 <script src="articles.js"></script>
+<script src="legacy.js"></script>
 <script>
 /* ==========================================================
    CONFIG — the only line you need to change
@@ -211,15 +212,17 @@ async function loadTrades(){
   for(const s of DB.seasons){
     const own = {};
     s.rosters.forEach(r => own[r.roster_id] = s.teamOf[r.owner_id] || `Roster ${r.roster_id}`);
-    for(let wk=1; wk<=18; wk++){
-      let tx = [];
-      try{ tx = await get(`${API}/league/${s.league.league_id}/transactions/${wk}`); }catch{ continue; }
-      tx.filter(t => t.type==='trade' && t.status==='complete').forEach(t => out.push({
+    const weeks = await Promise.all(
+      Array.from({length:18}, (_,i) => i+1).map(wk =>
+        get(`${API}/league/${s.league.league_id}/transactions/${wk}`)
+          .then(tx => ({wk, tx})).catch(() => ({wk, tx:[]}))));
+    weeks.forEach(({wk, tx}) => {
+      (tx||[]).filter(t => t.type==='trade' && t.status==='complete').forEach(t => out.push({
         season:s.league.season, wk, when:t.status_updated||0,
         teams:(t.roster_ids||[]).map(r => own[r] || `Roster ${r}`),
         picks:(t.draft_picks||[]).length
       }));
-    }
+    });
   }
   out.sort((a,b)=>b.when-a.when);
   DB.trades = out;
@@ -255,22 +258,56 @@ function allTime(){
   const all = {};
   DB.seasons.forEach(s => s.rosters.forEach(r => {
     if(!r.owner_id) return;
+    const key = ownerKey(r.owner_id);
     const st = r.settings||{};
-    const a = all[r.owner_id] || (all[r.owner_id] =
-      {owner:r.owner_id,name:'',w:0,l:0,t:0,pf:0,pa:0,yrs:0,titles:0});
+    const games = (st.wins||0)+(st.losses||0)+(st.ties||0);
+    const a = all[key] || (all[key] =
+      {owner:key,name:'',w:0,l:0,t:0,pf:0,pa:0,yrs:0,titles:0});
     a.name = s.teamOf[r.owner_id] || a.name;
+    if(!games) return;          // season not played yet — don't count it as a year
     a.w+=st.wins||0; a.l+=st.losses||0; a.t+=st.ties||0;
     a.pf+=pfOf(st); a.pa+=paOf(st); a.yrs++;
   }));
+
+  // Fold in any seasons that predate this Sleeper league, matched on manager name.
+  (window.LEGACY||[]).forEach(L => {
+    const hit = Object.values(all).find(a =>
+      a.name.toLowerCase() === String(L.manager||'').toLowerCase());
+    if(!hit) return;
+    hit.w += L.wins||0; hit.l += L.losses||0; hit.t += L.ties||0;
+    hit.pf += L.points||0; hit.yrs += L.seasons||0; hit.titles += L.titles||0;
+  });
   DB.seasons.forEach(s => {
     const c = champOf(s);
-    if(c && all[c.owner]) all[c.owner].titles++;
+    if(c && all[ownerKey(c.owner)]) all[ownerKey(c.owner)].titles++;
   });
   return Object.values(all).sort((a,b)=> pct(b.w,b.l,b.t)-pct(a.w,a.l,a.t) || b.pf-a.pf);
 }
 
+/* If a manager left and rejoined, Sleeper gives them a second account ID and
+   their history splits. MERGE maps the old ID onto the current one. */
+function ownerKey(id){
+  const m = window.MERGE || {};
+  return m[id] || id;
+}
+
+/* Which seasons actually have games played — used so "all-time" is never ambiguous. */
+function playedSeasons(){
+  return DB.seasons.filter(s => s.rosters.some(r => {
+    const st = r.settings||{};
+    return (st.wins||0)+(st.losses||0)+(st.ties||0) > 0;
+  })).map(s => s.league.season);
+}
+function playedSpan(){
+  const p = playedSeasons();
+  const extra = (window.LEGACY||[]).length ? ', plus recorded pre-Sleeper seasons' : '';
+  if(!p.length) return 'no completed seasons yet';
+  if(p.length === 1) return `the ${p[0]} season only${extra}`;
+  return `${p[0]}–${p[p.length-1]}${extra}`;
+}
+
 const rosterIdOf = owner => {
-  const r = DB.now.rosters.find(x => x.owner_id === owner);
+  const r = DB.now.rosters.find(x => ownerKey(x.owner_id) === ownerKey(owner));
   return r ? r.roster_id : '';
 };
 
@@ -352,13 +389,15 @@ V.teams = () => {
   const at = {}; allTime().forEach(a => at[a.owner] = a);
   return `<div class="kicker">${DB.now.league.season}</div>
   <h1 class="page">Teams</h1>
-  <p class="lede">Every franchise in the league. Open one for its roster and full history.</p>
+  <p class="lede">Every franchise in the league. Records below cover
+  ${playedSpan()}. Open a team for its roster and year-by-year history.</p>
   <div class="grid" style="margin-top:26px">${standingsOf(DB.now).map(r=>{
-    const a = at[r.owner];
+    const a = at[ownerKey(r.owner)];
     return `<a class="card" href="/team/${r.id}" data-link>
       <div class="k">${esc(r.who||'Manager')}</div>
       <div class="v">${esc(r.name)}${a&&a.titles?` <span class="crown">${'★'.repeat(a.titles)}</span>`:''}</div>
-      <div class="s">${a ? `${a.w}-${a.l} all-time · ${a.yrs} yr${a.yrs>1?'s':''}` : ''}</div></a>`;
+      <div class="s">${a && a.yrs ? `${a.w}-${a.l} · ${a.yrs} season${a.yrs>1?'s':''}`
+        : 'No completed seasons'}</div></a>`;
   }).join('')}</div>`;
 };
 
@@ -369,16 +408,17 @@ V.team = id => {
     <a href="/teams" data-link style="color:var(--pine)">Back to teams</a>.</p>`;
   const name = DB.now.teamOf[r.owner_id] || 'Open roster';
   const who = DB.now.nameOf[r.owner_id] || '';
-  const a = allTime().find(x => x.owner === r.owner_id);
+  const a = allTime().find(x => x.owner === ownerKey(r.owner_id));
   const st = r.settings || {};
   const years = DB.seasons.map(s => {
-    const rr = s.rosters.find(x => x.owner_id === r.owner_id);
+    const rr = s.rosters.find(x => ownerKey(x.owner_id) === ownerKey(r.owner_id));
     if(!rr) return null;
     const ss = rr.settings||{};
     if(!((ss.wins||0)+(ss.losses||0))) return null;
     const c = champOf(s);
-    const rank = standingsOf(s).findIndex(x => x.owner === r.owner_id) + 1;
-    return {season:s.league.season, w:ss.wins||0, l:ss.losses||0, rank, champ: c && c.owner === r.owner_id};
+    const rank = standingsOf(s).findIndex(x => ownerKey(x.owner) === ownerKey(r.owner_id)) + 1;
+    return {season:s.league.season, w:ss.wins||0, l:ss.losses||0, rank,
+      champ: c && ownerKey(c.owner) === ownerKey(r.owner_id)};
   }).filter(Boolean).reverse();
 
   return `<a class="back" href="/teams" data-link>← All teams</a>
@@ -442,8 +482,9 @@ V.history = () => {
   const titles = DB.seasons.map(s => ({season:s.league.season, c:champOf(s)})).filter(x=>x.c).reverse();
   return `<div class="kicker">Since ${DB.chain[0].season}</div>
   <h1 class="page">The record book</h1>
-  <p class="lede">Rebuilt from every season Sleeper has on file. Managers are tracked by account,
-  so a name change doesn't split anyone's record.</p>
+  <p class="lede">Covering ${playedSpan()}. Managers are tracked by account, so a name change
+  doesn't split anyone's record. Seasons played before this Sleeper league existed can be
+  entered by hand in <span class="mono">legacy.js</span>.</p>
   <h2 class="sec" style="margin-top:34px">Champions</h2>
   ${titles.length ? `<div class="grid">${titles.map(t=>`
     <a class="card" href="/team/${t.c.roster}" data-link>
@@ -500,6 +541,63 @@ V.picks.after = async () => {
       <td class="mono">${ord[p.round]||p.round+'th'}</td>
       <td class="dim">${esc(own[p.roster_id]||'—')}</td>
       <td class="team">${esc(own[p.owner_id]||'—')}</td></tr>`).join('')}</tbody></table>`).join('');
+};
+
+V.debug = () => {
+  const rows = DB.seasons.map(s => {
+    const played = s.rosters.filter(r => {
+      const st = r.settings||{};
+      return (st.wins||0)+(st.losses||0)+(st.ties||0) > 0;
+    });
+    const c = champOf(s);
+    return `<tr>
+      <td class="mono">${s.league.season}</td>
+      <td class="mono dim" style="font-size:11px">${s.league.league_id}</td>
+      <td class="n mono">${s.rosters.length}</td>
+      <td class="n mono">${played.length}</td>
+      <td>${c ? esc(c.name) : '<span class="dim">none</span>'}</td></tr>`;
+  }).join('');
+
+  // Any manager name appearing under more than one account = a split record.
+  const byName = {};
+  DB.seasons.forEach(s => s.rosters.forEach(r => {
+    if(!r.owner_id) return;
+    const n = s.teamOf[r.owner_id] || '(unnamed)';
+    (byName[n] = byName[n] || new Set()).add(r.owner_id);
+  }));
+  const split = Object.keys(byName).filter(n => byName[n].size > 1);
+
+  const at = allTime();
+  return `<h1 class="page">Diagnostics</h1>
+  <p class="lede">What actually loaded from Sleeper. Send me this page's contents and I can
+  pinpoint any record that looks wrong.</p>
+
+  <h2 class="sec" style="margin-top:30px">Seasons in the chain</h2>
+  <table class="data"><thead><tr><th>Season</th><th>League ID</th>
+    <th class="n">Rosters</th><th class="n">With results</th><th>Champion</th></tr></thead>
+    <tbody>${rows}</tbody></table>
+
+  <h2 class="sec" style="margin-top:34px">Per-manager season audit</h2>
+  <table class="data"><thead><tr><th>Manager</th><th>Seasons played</th>
+    <th class="n">Record</th><th class="n">Games</th></tr></thead>
+    <tbody>${at.map(a => {
+      const yrs = DB.seasons.filter(s => {
+        const r = s.rosters.find(x => x.owner_id === a.owner);
+        if(!r) return false;
+        const st = r.settings||{};
+        return (st.wins||0)+(st.losses||0)+(st.ties||0) > 0;
+      }).map(s => s.league.season);
+      return `<tr><td class="team">${esc(a.name)}</td>
+        <td class="mono dim" style="font-size:12px">${yrs.join(', ') || '—'}</td>
+        <td class="n rec">${a.w}-${a.l}${a.t?'-'+a.t:''}</td>
+        <td class="n mono">${a.w+a.l+a.t}</td></tr>`;
+    }).join('')}</tbody></table>
+
+  <h2 class="sec" style="margin-top:34px">Split records</h2>
+  ${split.length
+    ? `<p class="lede" style="color:var(--flag)">These names appear under more than one Sleeper
+       account, so their history is being split: ${split.map(esc).join(', ')}.</p>`
+    : `<p class="empty">None found. Every manager maps to a single account.</p>`}`;
 };
 
 V.articles = () => {
