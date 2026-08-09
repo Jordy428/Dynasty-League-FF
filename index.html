@@ -11,136 +11,167 @@
 <style>
 :root{
   --navy:#384959; --slate:#6A89A7; --sky:#88BDF2; --pale:#BDDDFC;
-  --bg:#E3EFFA; --card:#FFFFFF; --ink:#384959; --muted:#6A89A7;
-  --line:#CBDDEE; --gold:#8A6D2F;
+  --bg:#F2F7FC; --card:#FFFFFF; --ink:#22303D; --muted:#6A89A7;
+  --line:#D8E6F3; --gold:#8A6D2F;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);
   font-family:'Figtree',system-ui,-apple-system,sans-serif;
-  font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1440px;margin:0 auto;padding:0 56px}
-@media(max-width:1100px){.wrap{padding:0 36px}}
-@media(max-width:640px){.wrap{padding:0 22px}}
-.mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px}
+@media(max-width:900px){.wrap{padding:0 20px}}
+.mono{font-variant-numeric:tabular-nums}
 .dim{color:var(--muted)}
-.empty{color:var(--muted);padding:28px 0}
+.empty{color:var(--muted);padding:26px 0}
 
-/* masthead */
+/* ---- masthead ---- */
 .top{background:var(--navy);color:var(--pale)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;
-  height:52px;font-size:14.5px}
-.top .live{color:var(--sky);font-weight:600}
-.mast{background:var(--navy);color:#fff;padding:52px 0 0}
-.brand{font-size:clamp(32px,4.6vw,46px);font-weight:800;letter-spacing:-.028em;
-  line-height:1.1;display:inline-block;color:#fff}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:44px;font-size:13.5px}
+.top .live{color:var(--sky);font-weight:700}
+.mast{background:var(--navy);color:#fff;padding:34px 0 0}
+.brand{font-size:clamp(30px,4.4vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1;color:#fff}
 .brand:hover{color:var(--sky)}
-.mast .sub{font-size:16px;color:var(--pale);opacity:.85;margin-top:12px}
-nav{display:flex;flex-wrap:wrap;margin-top:42px}
-nav a{padding:14px 0 20px;margin-right:40px;font-size:15.5px;font-weight:500;
-  color:var(--pale);opacity:.75;border-bottom:3px solid transparent}
-@media(max-width:640px){nav a{margin-right:24px;font-size:14.5px}}
+.mast .sub{font-size:14.5px;color:var(--pale);opacity:.8;margin-top:10px}
+nav{display:flex;flex-wrap:wrap;margin-top:30px;border-top:1px solid rgba(189,221,252,.2);padding-top:4px}
+nav a{padding:14px 0 16px;margin-right:34px;font-size:13.5px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--pale);opacity:.7;
+  border-bottom:3px solid transparent;margin-bottom:-1px}
+@media(max-width:900px){nav a{margin-right:20px;font-size:12.5px}}
 nav a:hover{opacity:1}
-nav a.on{opacity:1;color:#fff;font-weight:600;border-bottom-color:var(--sky)}
-main{padding:76px 0 130px;min-height:60vh}
+nav a.on{opacity:1;color:#fff;border-bottom-color:var(--sky)}
+main{padding:0 0 110px;min-height:60vh}
 
-/* type */
-.kicker{font-size:14.5px;font-weight:600;color:var(--slate);margin-bottom:16px}
-h1.page{font-size:clamp(34px,4.6vw,46px);font-weight:800;letter-spacing:-.028em;line-height:1.12}
-.lede{color:var(--muted);font-size:17.5px;margin-top:18px;max-width:64ch;line-height:1.62}
-h2.sec{font-size:16px;font-weight:700;color:var(--navy);margin:0 0 24px;padding-bottom:18px;
-  border-bottom:2px solid var(--line);display:flex;justify-content:space-between;align-items:baseline}
-h2.sec a{color:var(--slate);font-size:14.5px;font-weight:500}
-h2.sec a:hover{color:var(--navy)}
+/* ---- shared bits ---- */
+.tag{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--slate);margin-bottom:12px;display:block}
+.byline{font-size:13.5px;color:var(--muted);margin-top:14px}
+.rail{display:flex;align-items:baseline;justify-content:space-between;
+  border-bottom:3px solid var(--navy);padding-bottom:12px;margin:0 0 32px}
+.rail h2{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.028em}
+.rail a{font-size:13px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--slate)}
+.rail a:hover{color:var(--navy)}
+.sec-gap{margin-top:84px}
 
-/* home */
-.home{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:96px}
-@media(max-width:1100px){.home{grid-template-columns:minmax(0,1fr) 340px;gap:56px}}
-@media(max-width:900px){.home{grid-template-columns:1fr;gap:60px}}
-.lead{border-bottom:2px solid var(--line);padding-bottom:56px;margin-bottom:20px;display:block}
-.lead h3{font-size:clamp(34px,3.6vw,46px);font-weight:800;letter-spacing:-.028em;
-  line-height:1.14;margin-bottom:22px}
-.lead:hover h3{color:var(--slate)}
-.lead .dek{font-family:'Newsreader',Georgia,serif;font-size:21px;line-height:1.65;
-  color:#4B5D6E;max-width:56ch}
-.byline{font-size:14.5px;color:var(--muted);margin-top:26px}
-.stack .row{display:block;padding:38px 0;border-bottom:1px solid var(--line)}
-.stack .row h4{font-size:23px;font-weight:700;letter-spacing:-.018em;line-height:1.3}
-.stack .row:hover h4{color:var(--slate)}
-.stack .row p{font-family:'Newsreader',Georgia,serif;font-size:17.5px;color:var(--muted);
-  margin-top:12px;line-height:1.6;max-width:58ch}
+/* thumbnail blocks stand in for photography */
+.thumb{aspect-ratio:16/9;border-radius:8px;display:flex;align-items:flex-end;
+  padding:20px 22px;color:#fff;font-weight:800;letter-spacing:-.02em;
+  font-size:19px;line-height:1.15;overflow:hidden;position:relative}
+.thumb.t0{background:linear-gradient(135deg,#384959,#6A89A7)}
+.thumb.t1{background:linear-gradient(135deg,#6A89A7,#88BDF2)}
+.thumb.t2{background:linear-gradient(135deg,#2C3B49,#88BDF2)}
+.thumb.t3{background:linear-gradient(135deg,#88BDF2,#BDDDFC);color:var(--navy)}
+.thumb .stamp{position:absolute;top:16px;right:18px;font-size:12px;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;opacity:.75}
 
-/* sidebar panels */
-aside .mod{margin-bottom:36px;background:var(--card);border:1px solid var(--line);
-  border-radius:14px;padding:30px 32px}
-aside .mod h2.sec{margin-bottom:20px;padding-bottom:16px}
-.mini{width:100%;border-collapse:collapse;font-size:15.5px}
-.mini td{padding:15px 2px;border-top:1px solid var(--line)}
-.mini tr:first-child td{border-top:none}
-.mini .p{color:var(--muted);width:36px;font-variant-numeric:tabular-nums}
-.mini .r{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
-.mini a:hover{color:var(--slate)}
-.tick{padding:20px 0;border-top:1px solid var(--line)}
-.tick:first-child{border-top:none;padding-top:4px}
-.tick .when{font-size:13.5px;color:var(--muted);margin-bottom:9px}
-.tick .swap{line-height:1.5}
-.tick .swap em{font-style:normal;color:var(--sky);padding:0 9px;font-weight:700}
+/* ---- hero ---- */
+.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:52px;align-items:center;
+  padding:56px 0 64px;border-bottom:1px solid var(--line)}
+@media(max-width:900px){.hero{grid-template-columns:1fr;gap:28px;padding:36px 0 44px}}
+.hero .thumb{aspect-ratio:16/10;font-size:26px}
+.hero h1{font-size:clamp(34px,4.6vw,56px);font-weight:800;letter-spacing:-.034em;line-height:1.06}
+.hero:hover h1{color:var(--slate)}
+.hero .dek{font-family:'Newsreader',Georgia,serif;font-size:19px;line-height:1.6;
+  color:#4B5D6E;margin-top:18px;max-width:48ch}
 
-/* tables */
-table.data{width:100%;border-collapse:collapse;font-size:16.5px;
-  background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-table.data th{text-align:left;font-size:14px;font-weight:600;color:var(--slate);
-  padding:22px 20px 18px;background:var(--pale)}
+/* ---- card grid ---- */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+@media(max-width:1000px){.cards3{grid-template-columns:repeat(2,1fr);gap:28px}}
+@media(max-width:640px){.cards3{grid-template-columns:1fr}}
+.story{display:block}
+.story .thumb{margin-bottom:16px;font-size:16px}
+.story h3{font-size:21px;font-weight:800;letter-spacing:-.022em;line-height:1.24}
+.story:hover h3{color:var(--slate)}
+.story p{font-family:'Newsreader',Georgia,serif;font-size:16px;color:var(--muted);
+  margin-top:10px;line-height:1.55}
+
+/* ---- two-up rail (standings + notes) ---- */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+@media(max-width:900px){.duo{grid-template-columns:1fr;gap:44px}}
+.notes{list-style:none}
+.notes li{border-bottom:1px solid var(--line)}
+.notes a{display:block;padding:17px 0;font-size:17px;font-weight:600;line-height:1.35}
+.notes a:hover{color:var(--slate)}
+.notes .when{display:block;font-size:13px;font-weight:500;color:var(--muted);margin-top:5px}
+
+/* ---- page headers ---- */
+#view > .kicker:first-child,#view > h1.page:first-child,#view > .back:first-child{padding-top:52px}
+#view > .lede{padding-bottom:36px;border-bottom:3px solid var(--navy);margin-bottom:44px;max-width:none}
+#view > h1.page + .lede{margin-top:16px}
+h1.page{font-size:clamp(32px,4.4vw,50px);font-weight:800;letter-spacing:-.032em;line-height:1.06}
+.lede{color:var(--muted);font-size:17px;margin-top:16px;max-width:62ch}
+.kicker{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--slate);margin-bottom:14px}
+h2.sec{font-size:20px;font-weight:800;letter-spacing:-.022em;color:var(--navy);
+  margin:0 0 20px;padding-bottom:12px;border-bottom:2px solid var(--navy);
+  display:flex;justify-content:space-between;align-items:baseline}
+h2.sec a,h2.sec span{font-size:13px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--slate)}
+
+/* ---- tables ---- */
+table.data{width:100%;border-collapse:collapse;font-size:16px;background:var(--card);
+  border:1px solid var(--line);border-radius:10px;overflow:hidden}
+table.data th{text-align:left;font-size:12px;font-weight:800;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--slate);padding:16px 18px;background:var(--pale)}
 table.data th.n,table.data td.n{text-align:right}
-table.data td{padding:22px 20px;border-top:1px solid var(--line);vertical-align:middle}
-table.data tbody tr:hover{background:#F4F9FE}
-.rk{color:var(--muted);width:52px;font-variant-numeric:tabular-nums}
-.team{font-weight:600;letter-spacing:-.012em}
+table.data td{padding:18px;border-top:1px solid var(--line)}
+table.data tbody tr:hover{background:#F6FAFE}
+.rk{color:var(--muted);width:48px;font-variant-numeric:tabular-nums}
+.team{font-weight:700;letter-spacing:-.014em}
 a.team:hover{color:var(--slate)}
-.rec{font-weight:700;font-variant-numeric:tabular-nums}
-.bar{height:8px;background:var(--pale);border-radius:8px;overflow:hidden;min-width:88px}
-.bar span{display:block;height:100%;background:var(--sky);border-radius:8px}
+.rec{font-weight:800;font-variant-numeric:tabular-nums}
+.bar{height:7px;background:var(--pale);border-radius:7px;overflow:hidden;min-width:80px}
+.bar span{display:block;height:100%;background:var(--sky);border-radius:7px}
 .crown{color:var(--gold)}
+.mini{width:100%;border-collapse:collapse;font-size:16px;background:var(--card);
+  border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.mini td{padding:15px 18px;border-top:1px solid var(--line)}
+.mini tr:first-child td{border-top:none}
+.mini .p{color:var(--muted);width:42px;font-variant-numeric:tabular-nums}
+.mini .r{text-align:right;font-weight:800;font-variant-numeric:tabular-nums}
+.mini a:hover{color:var(--slate)}
+.tick{padding:16px 0;border-bottom:1px solid var(--line)}
+.tick .when{font-size:13px;color:var(--muted);margin-bottom:6px}
+.tick .swap{font-weight:600}
+.tick .swap em{font-style:normal;color:var(--sky);padding:0 8px;font-weight:800}
 
-/* cards */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:30px;display:block;transition:border-color .15s,transform .15s,box-shadow .15s}
-.card:hover{border-color:var(--sky);transform:translateY(-3px);
-  box-shadow:0 8px 24px rgba(56,73,89,.08)}
-.card .k{font-size:14.5px;color:var(--muted)}
-.card .v{font-size:22px;font-weight:700;letter-spacing:-.018em;margin-top:12px;line-height:1.3}
-.card .s{font-size:15.5px;color:var(--muted);margin-top:12px;font-variant-numeric:tabular-nums}
+/* ---- cards ---- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:26px;display:block;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(56,73,89,.1)}
+.card .k{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--slate)}
+.card .v{font-size:21px;font-weight:800;letter-spacing:-.022em;margin-top:10px;line-height:1.25}
+.card .s{font-size:15px;color:var(--muted);margin-top:9px;font-variant-numeric:tabular-nums}
 
-/* article */
-.post{max-width:40rem;margin:0 auto;background:var(--card);border:1px solid var(--line);
-  border-radius:16px;padding:64px 68px}
-@media(max-width:640px){.post{padding:36px 26px}}
-.post h1{font-size:clamp(32px,4.6vw,44px);font-weight:800;letter-spacing:-.028em;line-height:1.16}
-.post .meta{font-size:15px;color:var(--muted);margin:22px 0 44px;
-  padding-bottom:28px;border-bottom:2px solid var(--line)}
-.post .body{font-family:'Newsreader',Georgia,serif;font-size:20.5px;line-height:1.8}
-.post .body p{margin-bottom:32px}
-.back{font-size:15px;color:var(--muted);display:inline-block;margin-bottom:36px}
-.back:hover{color:var(--slate)}
+/* ---- article ---- */
+.post{max-width:44rem;margin:0 auto;padding-top:52px}
+.post h1{font-size:clamp(34px,4.8vw,54px);font-weight:800;letter-spacing:-.034em;line-height:1.07}
+.post .meta{font-size:14px;color:var(--muted);margin:20px 0 40px;padding-bottom:24px;
+  border-bottom:3px solid var(--navy)}
+.post .hero-block{aspect-ratio:21/9;border-radius:8px;margin-bottom:40px;
+  background:linear-gradient(135deg,#384959,#88BDF2)}
+.post .body{font-family:'Newsreader',Georgia,serif;font-size:20px;line-height:1.75}
+.post .body p{margin-bottom:28px}
+.back{font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--slate);display:inline-block;margin-bottom:28px}
+.back:hover{color:var(--navy)}
 
-/* roster + draft */
-.pos{font-size:13px;font-weight:700;padding:6px 12px;border-radius:20px;
-  background:var(--pale);color:var(--navy);display:inline-block;min-width:52px;text-align:center}
+/* ---- roster/draft ---- */
+.pos{font-size:12px;font-weight:800;padding:5px 11px;border-radius:20px;background:var(--pale);
+  color:var(--navy);display:inline-block;min-width:50px;text-align:center}
 .pos.QB{background:#F2DEDA;color:#8A4A3E}
 .pos.RB{background:#DCEEE2;color:#37674B}
 .pos.WR{background:#D6E7F8;color:#33587D}
 .pos.TE{background:#F2E9D5;color:#77602D}
-.split{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:80px}
-@media(max-width:1000px){.split{grid-template-columns:1fr;gap:52px}}
-.split aside h2.sec{margin-top:0}
-.traded{font-size:14px;color:var(--slate);margin-top:5px}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:64px}
+@media(max-width:1000px){.split{grid-template-columns:1fr;gap:44px}}
+.traded{font-size:13.5px;color:var(--slate);margin-top:4px}
 
-.msg{padding:22px 26px;background:var(--card);border:1px solid var(--line);
-  border-radius:14px;font-size:16px;margin-bottom:32px}
+.msg{padding:20px 24px;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;margin:40px 0}
 .msg.err{border-color:#C98B8B;color:#9E3D3D}
-footer{border-top:1px solid var(--line);background:var(--navy);color:var(--pale);
-  padding:44px 0 60px;font-size:14.5px}
+footer{background:var(--navy);color:var(--pale);padding:40px 0 56px;font-size:13.5px}
 </style>
 </head>
 <body>
@@ -175,6 +206,7 @@ footer{border-top:1px solid var(--line);background:var(--navy);color:var(--pale)
    CONFIG — the only line you need to change
    ========================================================== */
 const LEAGUE_ID = '1312830186235912192';
+const BUILD = 'v5 — Ringer layout';
 
 /* Show only managers currently in the league.
    Set to false to include everyone who has ever played. */
@@ -332,6 +364,12 @@ const rosterIdOf = owner => {
   return r ? r.roster_id : '';
 };
 
+function thumbClass(str){
+  let h = 0;
+  for(let i=0;i<String(str).length;i++) h = (h*31 + String(str).charCodeAt(i)) % 4;
+  return 't' + h;
+}
+
 const posts = () => (window.ARTICLES||[]).slice()
   .sort((a,b)=>String(b.date).localeCompare(String(a.date)))
   .map(p => Object.assign({}, p, {slug: slug(p.title)}));
@@ -345,45 +383,78 @@ const teaser = b => String(b).trim().split(/\n\s*\n/)[0].replace(/\s*\n\s*/g,' '
 const V = {};
 
 V.home = () => {
-  const ps = posts(), lead = ps[0], rest = ps.slice(1,5);
-  const st = standingsOf(DB.now).slice(0,6);
+  const ps = posts(), lead = ps[0], rest = ps.slice(1,7);
+  const st = standingsOf(DB.now);
   const played = st.some(r=>r.w+r.l+r.t>0);
-  return `<div class="home">
+  const at = allTime();
+
+  const hero = lead ? `<a class="hero" href="/article/${lead.slug}" data-link>
+      <div>
+        <span class="tag">${esc(lead.tag||'The Latest')}</span>
+        <h1>${esc(lead.title)}</h1>
+        <div class="dek">${esc(teaser(lead.body).slice(0,200))}</div>
+        <div class="byline">${esc(lead.date)}</div>
+      </div>
+      <div class="thumb ${thumbClass(lead.title)}">
+        <span class="stamp">${esc(lead.tag||'League')}</span>
+        ${esc(DB.now.league.name)}
+      </div>
+    </a>`
+    : `<div class="hero"><div><h1>${esc(DB.now.league.name)}</h1>
+       <div class="dek">Add your first article in articles.js and it will lead this page.</div>
+       </div><div class="thumb t0">${esc(DB.now.league.name)}</div></div>`;
+
+  const latest = rest.length ? `<section class="sec-gap">
+      <div class="rail"><h2>The Latest</h2><a href="/articles" data-link>All writing</a></div>
+      <div class="cards3">${rest.map(p=>`<a class="story" href="/article/${p.slug}" data-link>
+        <div class="thumb ${thumbClass(p.title)}"><span class="stamp">${esc(p.tag||'')}</span>
+          ${esc(p.title.slice(0,42))}</div>
+        <span class="tag">${esc(p.tag||'Writing')}</span>
+        <h3>${esc(p.title)}</h3>
+        <p>${esc(teaser(p.body).slice(0,110))}…</p>
+        <div class="byline">${esc(p.date)}</div>
+      </a>`).join('')}</div></section>` : '';
+
+  return `${hero}
+
+  ${latest}
+
+  <section class="sec-gap"><div class="duo">
     <div>
-      ${lead ? `<a class="lead" href="/article/${lead.slug}" data-link>
-        <div class="kicker">${esc(lead.tag||'Latest')}</div>
-        <h3>${esc(lead.title)}</h3>
-        <div class="dek">${esc(teaser(lead.body).slice(0,240))}</div>
-        <div class="byline">${esc(lead.date)}</div></a>`
-        : `<p class="empty">No articles yet. Add one in articles.js.</p>`}
-      ${rest.length ? `<h2 class="sec">More writing <a href="/articles" data-link>All →</a></h2>
-      <div class="stack">${rest.map(p=>`<a class="row" href="/article/${p.slug}" data-link>
-        <h4>${esc(p.title)}</h4><p>${esc(teaser(p.body).slice(0,150))}…</p></a>`).join('')}</div>` : ''}
+      <div class="rail"><h2>Standings</h2><a href="/standings" data-link>Full table</a></div>
+      ${played ? `<table class="mini">${st.slice(0,8).map((r,i)=>`<tr>
+          <td class="p">${i+1}</td>
+          <td><a href="/team/${r.id}" data-link>${esc(r.name)}</a></td>
+          <td class="r">${r.w}-${r.l}</td></tr>`).join('')}</table>`
+        : `<p class="empty">The ${DB.now.league.season} season hasn't kicked off. Records appear
+           here after Week 1.</p>`}
     </div>
-    <aside>
-      <div class="mod">
-        <h2 class="sec">${DB.now.league.season} standings <a href="/standings" data-link>Full →</a></h2>
-        ${played ? `<table class="mini">${st.map((r,i)=>`<tr>
-            <td class="p">${i+1}</td>
-            <td><a href="/team/${r.id}" data-link>${esc(r.name)}</a></td>
-            <td class="r">${r.w}-${r.l}</td></tr>`).join('')}</table>`
-          : `<p class="empty">Season hasn't started. Records fill in after Week 1.</p>`}
-      </div>
-      <div class="mod">
-        <h2 class="sec">Latest trades <a href="/trades" data-link>All →</a></h2>
-        <div id="home-trades"><p class="empty">Loading…</p></div>
-      </div>
-    </aside>
-  </div>`;
+    <div>
+      <div class="rail"><h2>Trade Wire</h2><a href="/trades" data-link>All trades</a></div>
+      <ul class="notes" id="home-trades"><li><p class="empty">Loading…</p></li></ul>
+    </div>
+  </div></section>
+
+  <section class="sec-gap">
+    <div class="rail"><h2>The Record Book</h2><a href="/history" data-link>Full history</a></div>
+    <div class="grid">${at.slice(0,4).map((a,i)=>`
+      <a class="card" href="/team/${rosterIdOf(a.owner)}" data-link>
+        <div class="k">${i===0?'League leader':'No. '+(i+1)}</div>
+        <div class="v">${esc(a.name)}${a.titles?` <span class="crown">${'★'.repeat(a.titles)}</span>`:''}</div>
+        <div class="s">${a.w}-${a.l}${a.t?'-'+a.t:''} · ${a.yrs} season${a.yrs>1?'s':''}</div>
+      </a>`).join('')}</div>
+  </section>`;
 };
+
 V.home.after = async () => {
-  const t = (await loadTrades()).slice(0,4);
+  const t = (await loadTrades()).slice(0,6);
   const el = document.getElementById('home-trades');
   if(!el) return;
-  el.innerHTML = t.length ? t.map(x=>`<div class="tick">
-      <div class="when">${x.season} · Week ${x.wk}</div>
-      <div class="swap">${x.teams.map(esc).join('<em>⇄</em>')}</div></div>`).join('')
-    : `<p class="empty">No trades yet.</p>`;
+  el.innerHTML = t.length
+    ? t.map(x=>`<li><a href="/trades" data-link>${x.teams.map(esc).join(' &amp; ')}
+        <span class="when">${x.season} · Week ${x.wk}${
+          x.picks?` · ${x.picks} pick${x.picks>1?'s':''}`:''}</span></a></li>`).join('')
+    : `<li><p class="empty">No trades on record yet.</p></li>`;
 };
 
 V.standings = () => {
@@ -410,8 +481,7 @@ V.teams = () => {
   const at = {}; allTime().forEach(a => at[a.owner] = a);
   return `<div class="kicker">${DB.now.league.season}</div>
   <h1 class="page">Teams</h1>
-  <p class="lede">The twelve franchises. Records cover
-  ${playedSpan()}. Click any team for its roster and season-by-season results.</p>
+  <p class="lede">Every franchise in the league. Records cover ${playedSpan()}.</p>
   <div class="grid" style="margin-top:44px">${standingsOf(DB.now).map(r=>{
     const a = at[ownerKey(r.owner)];
     return `<a class="card" href="/team/${r.id}" data-link>
@@ -660,6 +730,7 @@ V.article = s => {
     <a class="back" href="/articles" data-link>← Writing</a>
     <h1>${esc(p.title)}</h1>
     <div class="meta">${esc(p.date)}${p.tag?' · '+esc(p.tag):''}</div>
+    <div class="hero-block"></div>
     <div class="body">${paras(p.body)}</div></div>`;
 };
 
@@ -707,7 +778,7 @@ window.addEventListener('popstate', route);
        : `${DB.state.season} ${DB.state.season_type === 'pre' ? 'preseason' : DB.state.season_type}`)
     : '';
   $('#foot').textContent =
-    `${n.name} · ${DB.seasons.length} season${DB.seasons.length>1?'s':''} · Data from the Sleeper API`;
+    `${n.name} · ${DB.seasons.length} season${DB.seasons.length>1?'s':''} · Data from the Sleeper API · build ${BUILD}`;
   route();
 })();
 </script>
