@@ -10,124 +10,137 @@
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F6F7F8; --card:#FFFFFF; --ink:#1A1D23; --muted:#737A85;
-  --line:#E4E7EB; --accent:#2E6B8F; --gold:#A0803C; --soft:#EDEFF2;
+  --navy:#384959; --slate:#6A89A7; --sky:#88BDF2; --pale:#BDDDFC;
+  --bg:#E3EFFA; --card:#FFFFFF; --ink:#384959; --muted:#6A89A7;
+  --line:#CBDDEE; --gold:#8A6D2F;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--paper);color:var(--ink);
+body{background:var(--bg);color:var(--ink);
   font-family:'Figtree',system-ui,-apple-system,sans-serif;
   font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
-@media(max-width:640px){.wrap{padding:0 20px}}
+.wrap{max-width:1440px;margin:0 auto;padding:0 56px}
+@media(max-width:1100px){.wrap{padding:0 36px}}
+@media(max-width:640px){.wrap{padding:0 22px}}
 .mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
 .dim{color:var(--muted)}
 .empty{color:var(--muted);padding:28px 0}
 
 /* masthead */
-.top{background:var(--card);border-bottom:1px solid var(--line)}
+.top{background:var(--navy);color:var(--pale)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;
-  height:46px;font-size:14px;color:var(--muted)}
-.top .live{color:var(--accent);font-weight:600}
-.mast{background:var(--card);border-bottom:1px solid var(--line);padding:44px 0 0}
-.brand{font-size:clamp(30px,4.6vw,42px);font-weight:800;letter-spacing:-.028em;
-  line-height:1.1;display:inline-block}
-.brand:hover{color:var(--accent)}
-.mast .sub{font-size:15px;color:var(--muted);margin-top:10px}
-nav{display:flex;flex-wrap:wrap;gap:6px;margin-top:34px}
-nav a{padding:12px 0 16px;margin-right:32px;font-size:15px;font-weight:500;
-  color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
-@media(max-width:640px){nav a{margin-right:22px;font-size:14px}}
-nav a:hover{color:var(--ink)}
-nav a.on{color:var(--ink);font-weight:600;border-bottom-color:var(--accent)}
-main{padding:64px 0 120px;min-height:60vh}
+  height:52px;font-size:14.5px}
+.top .live{color:var(--sky);font-weight:600}
+.mast{background:var(--navy);color:#fff;padding:52px 0 0}
+.brand{font-size:clamp(32px,4.6vw,46px);font-weight:800;letter-spacing:-.028em;
+  line-height:1.1;display:inline-block;color:#fff}
+.brand:hover{color:var(--sky)}
+.mast .sub{font-size:16px;color:var(--pale);opacity:.85;margin-top:12px}
+nav{display:flex;flex-wrap:wrap;margin-top:42px}
+nav a{padding:14px 0 20px;margin-right:40px;font-size:15.5px;font-weight:500;
+  color:var(--pale);opacity:.75;border-bottom:3px solid transparent}
+@media(max-width:640px){nav a{margin-right:24px;font-size:14.5px}}
+nav a:hover{opacity:1}
+nav a.on{opacity:1;color:#fff;font-weight:600;border-bottom-color:var(--sky)}
+main{padding:76px 0 130px;min-height:60vh}
 
 /* type */
-.kicker{font-size:14px;font-weight:600;color:var(--accent);margin-bottom:14px}
-h1.page{font-size:clamp(32px,4.6vw,44px);font-weight:800;letter-spacing:-.028em;line-height:1.12}
-.lede{color:var(--muted);font-size:17px;margin-top:16px;max-width:62ch;line-height:1.6}
-h2.sec{font-size:15px;font-weight:600;color:var(--ink);margin:0 0 22px;padding-bottom:16px;
-  border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline}
-h2.sec a{color:var(--accent);font-size:14px;font-weight:500}
+.kicker{font-size:14.5px;font-weight:600;color:var(--slate);margin-bottom:16px}
+h1.page{font-size:clamp(34px,4.6vw,46px);font-weight:800;letter-spacing:-.028em;line-height:1.12}
+.lede{color:var(--muted);font-size:17.5px;margin-top:18px;max-width:64ch;line-height:1.62}
+h2.sec{font-size:16px;font-weight:700;color:var(--navy);margin:0 0 24px;padding-bottom:18px;
+  border-bottom:2px solid var(--line);display:flex;justify-content:space-between;align-items:baseline}
+h2.sec a{color:var(--slate);font-size:14.5px;font-weight:500}
+h2.sec a:hover{color:var(--navy)}
 
 /* home */
-.home{display:grid;grid-template-columns:1fr 300px;gap:80px}
-@media(max-width:900px){.home{grid-template-columns:1fr;gap:56px}}
-.lead{border-bottom:1px solid var(--line);padding-bottom:48px;margin-bottom:16px;display:block}
-.lead h3{font-size:clamp(30px,4vw,40px);font-weight:800;letter-spacing:-.028em;
-  line-height:1.18;margin-bottom:18px}
-.lead:hover h3{color:var(--accent)}
-.lead .dek{font-family:'Newsreader',Georgia,serif;font-size:20px;line-height:1.62;
-  color:#4A5058;max-width:54ch}
-.byline{font-size:14px;color:var(--muted);margin-top:22px}
-.stack .row{display:block;padding:34px 0;border-bottom:1px solid var(--line)}
-.stack .row h4{font-size:21px;font-weight:700;letter-spacing:-.018em;line-height:1.32}
-.stack .row:hover h4{color:var(--accent)}
-.stack .row p{font-family:'Newsreader',Georgia,serif;font-size:17px;color:var(--muted);
-  margin-top:10px;line-height:1.6;max-width:56ch}
-aside .mod{margin-bottom:56px}
-.mini{width:100%;border-collapse:collapse;font-size:15px}
-.mini td{padding:14px 2px;border-top:1px solid var(--line)}
+.home{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:96px}
+@media(max-width:1100px){.home{grid-template-columns:minmax(0,1fr) 340px;gap:56px}}
+@media(max-width:900px){.home{grid-template-columns:1fr;gap:60px}}
+.lead{border-bottom:2px solid var(--line);padding-bottom:56px;margin-bottom:20px;display:block}
+.lead h3{font-size:clamp(34px,3.6vw,46px);font-weight:800;letter-spacing:-.028em;
+  line-height:1.14;margin-bottom:22px}
+.lead:hover h3{color:var(--slate)}
+.lead .dek{font-family:'Newsreader',Georgia,serif;font-size:21px;line-height:1.65;
+  color:#4B5D6E;max-width:56ch}
+.byline{font-size:14.5px;color:var(--muted);margin-top:26px}
+.stack .row{display:block;padding:38px 0;border-bottom:1px solid var(--line)}
+.stack .row h4{font-size:23px;font-weight:700;letter-spacing:-.018em;line-height:1.3}
+.stack .row:hover h4{color:var(--slate)}
+.stack .row p{font-family:'Newsreader',Georgia,serif;font-size:17.5px;color:var(--muted);
+  margin-top:12px;line-height:1.6;max-width:58ch}
+
+/* sidebar panels */
+aside .mod{margin-bottom:36px;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:30px 32px}
+aside .mod h2.sec{margin-bottom:20px;padding-bottom:16px}
+.mini{width:100%;border-collapse:collapse;font-size:15.5px}
+.mini td{padding:15px 2px;border-top:1px solid var(--line)}
 .mini tr:first-child td{border-top:none}
-.mini .p{color:var(--muted);width:34px;font-variant-numeric:tabular-nums}
+.mini .p{color:var(--muted);width:36px;font-variant-numeric:tabular-nums}
 .mini .r{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
-.mini a:hover{color:var(--accent)}
+.mini a:hover{color:var(--slate)}
 .tick{padding:20px 0;border-top:1px solid var(--line)}
-.tick:first-child{border-top:none}
-.tick .when{font-size:13px;color:var(--muted);margin-bottom:8px}
-.tick .swap em{font-style:normal;color:var(--accent);padding:0 8px}
+.tick:first-child{border-top:none;padding-top:4px}
+.tick .when{font-size:13.5px;color:var(--muted);margin-bottom:9px}
+.tick .swap{line-height:1.5}
+.tick .swap em{font-style:normal;color:var(--sky);padding:0 9px;font-weight:700}
 
 /* tables */
-table.data{width:100%;border-collapse:collapse;font-size:16px}
-table.data th{text-align:left;font-size:14px;font-weight:500;color:var(--muted);
-  padding:0 16px 18px 0;letter-spacing:0}
-table.data th:first-child{padding-left:4px}
-table.data th.n,table.data td.n{text-align:right;padding-right:4px}
-table.data td{padding:20px 16px 20px 0;border-top:1px solid var(--line);vertical-align:middle}
-table.data td:first-child{padding-left:4px}
-table.data tbody tr:hover{background:var(--card)}
-.rk{color:var(--muted);width:40px;font-variant-numeric:tabular-nums}
+table.data{width:100%;border-collapse:collapse;font-size:16.5px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+table.data th{text-align:left;font-size:14px;font-weight:600;color:var(--slate);
+  padding:22px 20px 18px;background:var(--pale)}
+table.data th.n,table.data td.n{text-align:right}
+table.data td{padding:22px 20px;border-top:1px solid var(--line);vertical-align:middle}
+table.data tbody tr:hover{background:#F4F9FE}
+.rk{color:var(--muted);width:52px;font-variant-numeric:tabular-nums}
 .team{font-weight:600;letter-spacing:-.012em}
-a.team:hover{color:var(--accent)}
-.rec{font-weight:600;font-variant-numeric:tabular-nums}
-.bar{height:6px;background:var(--soft);border-radius:6px;overflow:hidden;min-width:72px}
-.bar span{display:block;height:100%;background:var(--accent);border-radius:6px}
+a.team:hover{color:var(--slate)}
+.rec{font-weight:700;font-variant-numeric:tabular-nums}
+.bar{height:8px;background:var(--pale);border-radius:8px;overflow:hidden;min-width:88px}
+.bar span{display:block;height:100%;background:var(--sky);border-radius:8px}
 .crown{color:var(--gold)}
 
 /* cards */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;
-  padding:26px;display:block;transition:border-color .15s,transform .15s}
-.card:hover{border-color:var(--accent);transform:translateY(-2px)}
-.card .k{font-size:14px;color:var(--muted)}
-.card .v{font-size:21px;font-weight:700;letter-spacing:-.018em;margin-top:10px;line-height:1.3}
-.card .s{font-size:15px;color:var(--muted);margin-top:10px;font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:30px;display:block;transition:border-color .15s,transform .15s,box-shadow .15s}
+.card:hover{border-color:var(--sky);transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(56,73,89,.08)}
+.card .k{font-size:14.5px;color:var(--muted)}
+.card .v{font-size:22px;font-weight:700;letter-spacing:-.018em;margin-top:12px;line-height:1.3}
+.card .s{font-size:15.5px;color:var(--muted);margin-top:12px;font-variant-numeric:tabular-nums}
 
 /* article */
-.post{max-width:38rem;margin:0 auto}
+.post{max-width:40rem;margin:0 auto;background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:64px 68px}
+@media(max-width:640px){.post{padding:36px 26px}}
 .post h1{font-size:clamp(32px,4.6vw,44px);font-weight:800;letter-spacing:-.028em;line-height:1.16}
-.post .meta{font-size:15px;color:var(--muted);margin:20px 0 48px;
-  padding-bottom:28px;border-bottom:1px solid var(--line)}
-.post .body{font-family:'Newsreader',Georgia,serif;font-size:20px;line-height:1.78}
-.post .body p{margin-bottom:30px}
+.post .meta{font-size:15px;color:var(--muted);margin:22px 0 44px;
+  padding-bottom:28px;border-bottom:2px solid var(--line)}
+.post .body{font-family:'Newsreader',Georgia,serif;font-size:20.5px;line-height:1.8}
+.post .body p{margin-bottom:32px}
 .back{font-size:15px;color:var(--muted);display:inline-block;margin-bottom:36px}
-.back:hover{color:var(--accent)}
+.back:hover{color:var(--slate)}
 
-/* roster */
-.pos{font-size:13px;font-weight:600;padding:5px 11px;border-radius:20px;
-  background:var(--soft);color:var(--muted);display:inline-block;min-width:48px;text-align:center}
-.pos.QB{background:#F2E4E2;color:#8A4A3E}
-.pos.RB{background:#DFEDE4;color:#3D6B4F}
-.pos.WR{background:#E1EAF4;color:#3A5C80}
-.pos.TE{background:#F3EBD9;color:#7A6330}
-.split{display:grid;grid-template-columns:1fr 280px;gap:80px}
-@media(max-width:900px){.split{grid-template-columns:1fr;gap:52px}}
+/* roster + draft */
+.pos{font-size:13px;font-weight:700;padding:6px 12px;border-radius:20px;
+  background:var(--pale);color:var(--navy);display:inline-block;min-width:52px;text-align:center}
+.pos.QB{background:#F2DEDA;color:#8A4A3E}
+.pos.RB{background:#DCEEE2;color:#37674B}
+.pos.WR{background:#D6E7F8;color:#33587D}
+.pos.TE{background:#F2E9D5;color:#77602D}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:80px}
+@media(max-width:1000px){.split{grid-template-columns:1fr;gap:52px}}
+.split aside h2.sec{margin-top:0}
+.traded{font-size:14px;color:var(--slate);margin-top:5px}
 
-.msg{padding:20px 24px;background:var(--card);border:1px solid var(--line);
-  border-radius:10px;font-size:16px;margin-bottom:32px}
-.msg.err{border-color:#D9A5A5;color:#9E3D3D}
-footer{border-top:1px solid var(--line);background:var(--card);
-  padding:40px 0 56px;font-size:14px;color:var(--muted)}
+.msg{padding:22px 26px;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;font-size:16px;margin-bottom:32px}
+.msg.err{border-color:#C98B8B;color:#9E3D3D}
+footer{border-top:1px solid var(--line);background:var(--navy);color:var(--pale);
+  padding:44px 0 60px;font-size:14.5px}
 </style>
 </head>
 <body>
@@ -146,7 +159,7 @@ footer{border-top:1px solid var(--line);background:var(--card);
     <a href="/teams" data-link data-r="teams">Teams</a>
     <a href="/history" data-link data-r="history">History</a>
     <a href="/trades" data-link data-r="trades">Trades</a>
-    <a href="/picks" data-link data-r="picks">Picks</a>
+    <a href="/picks" data-link data-r="picks">Draft</a>
     <a href="/articles" data-link data-r="articles">Writing</a>
   </nav>
 </div></div>
@@ -531,101 +544,98 @@ V.trades.after = async () => {
     </div>`).join('') : `<p class="empty">No completed trades on record.</p>`;
 };
 
-V.picks = () => `<div class="kicker">Draft capital</div>
-  <h1 class="page">Draft pick ledger</h1>
-  <p class="lede">Picks that have changed hands. Anything not listed is still with the team that earned it.</p>
-  <div id="picklist" style="margin-top:44px"><p class="empty">Loading…</p></div>`;
+V.picks = () => `<div class="kicker">Draft results</div>
+  <h1 class="page">The draft board</h1>
+  <p class="lede">Every pick each team has made, newest draft first. Picks acquired in a trade
+  are noted with the team they came from. Future picks that have already changed hands are
+  listed at the bottom.</p>
+  <div id="picklist" style="margin-top:52px"><p class="empty">Loading draft history…</p></div>`;
+
 V.picks.after = async () => {
   const el = document.getElementById('picklist');
-  let tp;
-  try{ tp = await get(`${API}/league/${DB.now.league.league_id}/traded_picks`); }
-  catch{ el.innerHTML = `<p class="empty">Could not load traded picks.</p>`; return; }
-  const own = {};
-  DB.now.rosters.forEach(r => own[r.roster_id] = DB.now.teamOf[r.owner_id] || `Roster ${r.roster_id}`);
-  const ord = ['','1st','2nd','3rd','4th','5th','6th','7th','8th'];
-  const fut = tp.filter(p => Number(p.season) >= Number(DB.now.league.season));
-  if(!fut.length){ el.innerHTML = `<p class="empty">No future picks have been traded.</p>`; return; }
-  const by = {};
-  fut.forEach(p => (by[p.season] = by[p.season]||[]).push(p));
-  el.innerHTML = Object.keys(by).sort().map(yr => `
-    <h2 class="sec" style="margin-top:52px">${yr} draft</h2>
-    <table class="data"><thead><tr><th>Round</th><th>From</th><th>Now held by</th></tr></thead>
-    <tbody>${by[yr].sort((a,b)=>a.round-b.round).map(p=>`<tr>
-      <td class="mono">${ord[p.round]||p.round+'th'}</td>
-      <td class="dim">${esc(own[p.roster_id]||'—')}</td>
-      <td class="team">${esc(own[p.owner_id]||'—')}</td></tr>`).join('')}</tbody></table>`).join('');
-};
+  const ord = ['','1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th',
+               '11th','12th','13th','14th','15th','16th','17th','18th','19th','20th'];
 
-V.debug = () => {
-  const rows = DB.seasons.map(s => {
-    const played = s.rosters.filter(r => {
-      const st = r.settings||{};
-      return (st.wins||0)+(st.losses||0)+(st.ties||0) > 0;
+  /* Draft picks carry player name and position in their own metadata,
+     so this page never needs the big player file. */
+  const boards = [];
+  for(const s2 of DB.seasons.slice().reverse()){
+    let drafts = [];
+    try{ drafts = await get(`${API}/league/${s2.league.league_id}/drafts`); }catch{ continue; }
+    if(!drafts.length) continue;
+    const d = drafts[0];
+    let picks = [];
+    try{ picks = await get(`${API}/draft/${d.draft_id}/picks`); }catch{ continue; }
+    if(!picks.length) continue;
+
+    const own = {};
+    s2.rosters.forEach(r => own[r.roster_id] = s2.teamOf[r.owner_id] || `Roster ${r.roster_id}`);
+    const slotMap = d.slot_to_roster_id || {};
+
+    boards.push({
+      season: s2.league.season,
+      type: d.type,
+      picks: picks.map(p => {
+        const m = p.metadata || {};
+        const origRoster = slotMap[p.draft_slot];
+        const traded = origRoster && origRoster !== p.roster_id;
+        return {
+          round: p.round, no: p.pick_no,
+          name: (m.first_name || m.last_name)
+            ? `${m.first_name||''} ${m.last_name||''}`.trim() : 'Unknown player',
+          pos: m.position || '—',
+          nfl: m.team ? String(m.team).toUpperCase() : 'FA',
+          by: own[p.roster_id] || '—',
+          from: traded ? (own[origRoster] || '—') : null
+        };
+      }).sort((a,b) => a.no - b.no)
     });
-    const c = champOf(s);
-    return `<tr>
-      <td class="mono">${s.league.season}</td>
-      <td class="mono dim" style="font-size:11px">${s.league.league_id}</td>
-      <td class="n mono">${s.rosters.length}</td>
-      <td class="n mono">${played.length}</td>
-      <td>${c ? esc(c.name) : '<span class="dim">none</span>'}</td></tr>`;
+  }
+
+  let html = boards.map(b => {
+    const rounds = {};
+    b.picks.forEach(p => (rounds[p.round] = rounds[p.round] || []).push(p));
+    return `<h2 class="sec" style="margin-top:64px">${b.season} draft
+      <span class="dim" style="font-weight:400">${b.picks.length} picks</span></h2>
+      ${Object.keys(rounds).sort((x,y)=>x-y).map(rd => `
+        <h3 style="font-size:15px;font-weight:600;color:var(--slate);margin:34px 0 14px">
+          Round ${rd}</h3>
+        <table class="data">
+          <thead><tr><th style="width:70px">Pick</th><th>Player</th>
+          <th style="width:90px">Pos</th><th style="width:80px">NFL</th><th>Drafted by</th></tr></thead>
+          <tbody>${rounds[rd].map(p => `<tr>
+            <td class="mono dim">${p.no}</td>
+            <td class="team">${esc(p.name)}</td>
+            <td><span class="pos ${esc(p.pos)}">${esc(p.pos)}</span></td>
+            <td class="dim">${esc(p.nfl)}</td>
+            <td>${esc(p.by)}${p.from
+              ? `<div class="traded">via trade with ${esc(p.from)}</div>` : ''}</td>
+          </tr>`).join('')}</tbody></table>`).join('')}`;
   }).join('');
 
-  // Any manager name appearing under more than one account = a split record.
-  const byName = {};
-  DB.seasons.forEach(s => s.rosters.forEach(r => {
-    if(!r.owner_id) return;
-    const n = s.teamOf[r.owner_id] || '(unnamed)';
-    (byName[n] = byName[n] || new Set()).add(r.owner_id);
-  }));
-  const split = Object.keys(byName).filter(n => byName[n].size > 1);
+  if(!html) html = `<p class="empty">No completed drafts found yet.</p>`;
 
-  const at = allTime();
-  const gone = [];
-  const activeSet = new Set(DB.now.rosters.filter(r=>r.owner_id).map(r=>ownerKey(r.owner_id)));
-  DB.seasons.forEach(s => s.rosters.forEach(r => {
-    if(!r.owner_id) return;
-    const k = ownerKey(r.owner_id);
-    if(!activeSet.has(k) && !gone.some(g => g.k === k))
-      gone.push({k, name: s.teamOf[r.owner_id] || '(unnamed)', season: s.league.season});
-  }));
+  /* Future picks that have already moved. */
+  try{
+    const tp = await get(`${API}/league/${DB.now.league.league_id}/traded_picks`);
+    const own = {};
+    DB.now.rosters.forEach(r => own[r.roster_id] = DB.now.teamOf[r.owner_id] || `Roster ${r.roster_id}`);
+    const fut = tp.filter(p => Number(p.season) > Number(DB.now.league.season));
+    if(fut.length){
+      const by = {};
+      fut.forEach(p => (by[p.season] = by[p.season]||[]).push(p));
+      html += Object.keys(by).sort().map(yr => `
+        <h2 class="sec" style="margin-top:64px">${yr} picks already traded</h2>
+        <table class="data"><thead><tr><th style="width:110px">Round</th>
+        <th>Originally</th><th>Now held by</th></tr></thead>
+        <tbody>${by[yr].sort((a,b)=>a.round-b.round).map(p=>`<tr>
+          <td class="mono">${ord[p.round]||p.round}</td>
+          <td class="dim">${esc(own[p.roster_id]||'—')}</td>
+          <td class="team">${esc(own[p.owner_id]||'—')}</td></tr>`).join('')}</tbody></table>`).join('');
+    }
+  }catch{}
 
-  return `<h1 class="page">Diagnostics</h1>
-  <p class="lede">What actually loaded from Sleeper. Send me this page's contents and I can
-  pinpoint any record that looks wrong.</p>
-
-  <h2 class="sec" style="margin-top:52px">Seasons in the chain</h2>
-  <table class="data"><thead><tr><th>Season</th><th>League ID</th>
-    <th class="n">Rosters</th><th class="n">With results</th><th>Champion</th></tr></thead>
-    <tbody>${rows}</tbody></table>
-
-  <h2 class="sec" style="margin-top:64px">Per-manager season audit</h2>
-  <table class="data"><thead><tr><th>Manager</th><th>Seasons played</th>
-    <th class="n">Record</th><th class="n">Games</th></tr></thead>
-    <tbody>${at.map(a => {
-      const yrs = DB.seasons.filter(s => {
-        const r = s.rosters.find(x => x.owner_id === a.owner);
-        if(!r) return false;
-        const st = r.settings||{};
-        return (st.wins||0)+(st.losses||0)+(st.ties||0) > 0;
-      }).map(s => s.league.season);
-      return `<tr><td class="team">${esc(a.name)}</td>
-        <td class="dim">${yrs.join(', ') || '—'}</td>
-        <td class="n rec">${a.w}-${a.l}${a.t?'-'+a.t:''}</td>
-        <td class="n mono">${a.w+a.l+a.t}</td></tr>`;
-    }).join('')}</tbody></table>
-
-  <h2 class="sec" style="margin-top:64px">Former managers</h2>
-  ${gone.length
-    ? `<p class="lede">Hidden from the record book because they're no longer in the league:
-       ${gone.map(g => esc(g.name)).join(', ')}.</p>`
-    : `<p class="empty">Everyone who has played is still in the league.</p>`}
-
-  <h2 class="sec" style="margin-top:64px">Split records</h2>
-  ${split.length
-    ? `<p class="lede" style="color:var(--flag)">These names appear under more than one Sleeper
-       account, so their history is being split: ${split.map(esc).join(', ')}.</p>`
-    : `<p class="empty">None found. Every manager maps to a single account.</p>`}`;
+  el.innerHTML = html;
 };
 
 V.articles = () => {
@@ -666,7 +676,7 @@ function route(){
   const group = name === 'article' ? 'articles' : name === 'team' ? 'teams' : name;
   document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.r === group));
   const t = {home:DB.now.league.name, standings:'Standings', teams:'Teams', history:'Record book',
-    trades:'Trade log', picks:'Draft picks', articles:'Writing', article:'Writing', team:'Team'};
+    trades:'Trade log', picks:'Draft board', articles:'Writing', article:'Writing', team:'Team'};
   document.title = `${t[name]||''} · ${DB.now.league.name}`;
   window.scrollTo(0,0);
   if(V[name].after) V[name].after(arg);
